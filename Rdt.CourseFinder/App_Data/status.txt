@@ -1,0 +1,15 @@
+SL,Short Listed
+OH,On Hold
+MA,Medical Applied
+MU,Medically Unfit
+MRX,Medical Received
+MRR,Medical Repeat
+MF,Medical Fwd
+VR,Visa Received
+VC,Visa Cancelled
+AN,Agent Notified
+AC,Accounts Cleared
+NC,Notified Client
+TVL,Travelled
+PT,Postponed
+CAN,Cancelled

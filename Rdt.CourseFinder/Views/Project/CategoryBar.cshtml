@@ -1,0 +1,68 @@
+﻿@model Dictionary<string, int>
+<div id="container" style="width: 850px; height: 450px;"></div>
+@{
+    var reqLst = string.Join(",", Model.Select(k => k.Value));
+}
+<script>
+    var sub = "@Html.Raw(ViewBag.Prj)" + " | " + new Date().toLocaleDateString() + " | " + new Date().toLocaleTimeString() + ' | lionats.com';
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                categories: [@Html.Raw(String.Join(",", Model.Keys.Select(k => "'" + k + "'")))],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: sub,
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' candidates',
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: '#FFFFFF',
+                shadow: true
+            },
+            credits: {
+                enabled: false
+            },
+            series: [
+                    {
+                        name: '@ViewBag.Ctrgy',
+                        data: [@reqLst],
+                    },
+            ]
+        });
+    });
+</script>
+

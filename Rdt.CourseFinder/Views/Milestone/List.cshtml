@@ -1,0 +1,31 @@
+﻿@model List<Rdt.CourseFinder.Entities.Milestone>
+
+<table class="edit-table" id="milestone">
+    @{var cnt = 1;}
+    <tr>
+        <th>#</th>
+        <th>Milestone</th>
+        <th>Date</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var req in Model.OrderBy(m => m.ExpectedDate))
+    {
+        <tr class="edit-ctnr">
+            <td><div class="slCnt">@(cnt++)</div></td>
+            <td class="field">@req.Name</td>
+            <td>@DisplayHelper.DateTime(req.ExpectedDate, DateTypes.DateOnly)</td>
+            <td><a class="edit-line btn-simple" data-id="@req.MilestoneId"><i class="icon-edit"></i></a></td>
+            <td><div style="width:200px;"></div> </td>
+        </tr>
+    }
+    <tr class="edit-ctnr">
+        <td></td>
+        <td colspan="3"><a class="edit-line btn-gray add-btn"><i class="icon-plus-sign"></i>Add New Milestone</a></td>
+        <td></td>
+    </tr>
+</table>
+
+@{Html.RenderPartial("_ListEdit", "milestone");}
+
+<script src="~/Scripts/_time.js"></script>

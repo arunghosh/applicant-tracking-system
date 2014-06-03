@@ -1,0 +1,11 @@
+﻿@model Rdt.CourseFinder.Entities.Category
+
+<form action="/category/editctgry" method="post">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.MasterCategoryId)
+    @Html.HiddenFor(m => m.CategoryId)
+    @Html.TextBoxFor(m => m.Name)
+    <button class="edit-save btn">Save</button>
+</form>
+
+

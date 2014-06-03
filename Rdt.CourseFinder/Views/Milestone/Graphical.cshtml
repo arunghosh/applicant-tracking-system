@@ -1,0 +1,54 @@
+﻿@model List<Rdt.CourseFinder.Entities.Milestone>
+@if (Model != null && Model.Any())
+{
+    var start = Model[0].ExpectedDate;
+    var end = Model.Last().ExpectedDate;
+    double maxDay = (end - start).TotalDays;
+    double maxPx = 800;
+    double pxPerDay = maxPx / maxDay;
+    double deltaSum = 0;
+    var deltas = new List<double> { 0 };
+    var nowDiff = Math.Floor((DateTime.UtcNow - start).TotalDays);
+    var isActive = DateTime.UtcNow > start && DateTime.UtcNow < end.AddDays(20);
+    
+    <ul>
+        @foreach (var mile in Model)
+        {
+            var diff = (mile.ExpectedDate - start).TotalDays * pxPerDay;
+            double len = 2;
+            if (Model.Last() != mile)
+            {
+                var next = Model[Model.IndexOf(mile) + 1];
+                var deltaNx = (next.ExpectedDate - mile.ExpectedDate).TotalDays;
+                len = deltaNx * pxPerDay;
+                len -= 10;
+                deltas.Add(deltaNx);
+            }
+            else
+            {
+                mile.Name = "";
+            }
+    
+            <li class="time-line-ctnr">
+                @if (isActive)
+                {
+                    <div class="x-axis today-mrk" style="margin-left:@(nowDiff * pxPerDay)px">|</div>
+                }
+                <div class="time-line" style="margin-left: @(diff)px;width:@(len)px">@DisplayHelper.DateTime(mile.ExpectedDate, DateTypes.Medium) @mile.Name</div>
+            </li>
+        }
+    </ul>
+
+    <div>
+        @foreach (var delta in deltas)
+        {
+            deltaSum += delta;    
+            <div class="x-axis" style="margin-left:@(deltaSum * pxPerDay)px">@deltaSum (+@(delta) days)</div>
+        }
+    </div>
+    <script src="~/Scripts/_time.js"></script>
+}
+else
+{
+    <h6>No milestones set</h6>
+}

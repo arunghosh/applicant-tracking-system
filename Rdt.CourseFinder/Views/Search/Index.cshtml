@@ -1,0 +1,30 @@
+﻿@model Rdt.CourseFinder.Models.CandidateSearchVm
+
+@{
+    ViewBag.Title = "Resource Hunters";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="searchCtnr">
+    <div id="filterCtnr">
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(m => m.PageIndex)
+            @Html.Hidden("output", "normal")
+            <div id="txt-filter-ctnr">
+                <input name="Name" id="name" placeholder="Candidate Name" />
+                <input name="Passport" id="Passport" placeholder="Passport #" />
+            </div>
+            foreach (var grp in Model.Filters.Where(f => f.IsList))
+            {
+            @SearchHelper.DispayGroup(grp, Url.Action(grp.AutoComplete))
+            }
+        }
+    </div>
+    <div id="srchRslt">
+        @Html.Partial("Result", Model)
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/Scripts/_search.js"></script>
+}

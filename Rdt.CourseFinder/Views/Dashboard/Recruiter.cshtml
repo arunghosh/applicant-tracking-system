@@ -1,0 +1,36 @@
+﻿@model List<Rdt.CourseFinder.Entities.Project>
+
+
+<div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>Project Name</th>
+            <th>Target</th>
+            <th>Current</th>
+            <th>Candidate Count</th>
+            <th>Medical Received</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            var reqCnt = item.Requirements.Sum(r => r.Count);
+            var currCnt = item.Candidates.Count();
+            var rectCmptCnt = item.Candidates.Where(c => c.IsMedicalReceived).Count();
+            <tr>
+                <td>
+                    <form action="/ProjectSearch/Index" method="post">
+                        <input type="hidden" name="_selePrj" value="@item.ProjectName" />
+                        <button class="link" type="submit">@item.ProjectName</button>
+                    </form>
+                </td>                <td>@reqCnt</td>
+                <td>@currCnt</td>
+                <td>
+                    @GraphHelper.TableGraph(reqCnt, currCnt, 150)
+                </td>
+
+                <td>
+                    @GraphHelper.TableGraph(reqCnt, rectCmptCnt, 150)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

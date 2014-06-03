@@ -1,0 +1,74 @@
+﻿@model List<Rdt.CourseFinder.Entities.MasterCategory>
+
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    ul.tree
+    {
+        list-style-type:none;
+    }
+</style>
+
+<ul class="tree">
+    <li class="m-root"><a class="add-m-ctgry">Add</a></li>
+    @foreach (var mCtrgy in Model)
+    {
+        <li>
+            @mCtrgy.Name
+            <ul>
+                <li class="file"><a class="add-ctgry" data-pid="@mCtrgy.MasterCategoryId">Add</a></li>
+                @foreach (var ctgry in mCtrgy.Categories)
+                {
+                    <li><span>@ctgry.Name</span></li>
+                }
+            </ul>
+        </li>
+    }
+</ul>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $('.add-m-ctgry').each(function () {
+                var $this = $(this);
+                var $ctnr = $this.parent('li');
+                $this.unbind('click');
+                $this.click(function () {
+                    var id = $this.attr('data-id');
+                    $ctnr.html('<img src="/Content/Images/busy_h.gif" />');
+                    $.ajax({
+                        url: '/category/editmaster/',
+                        type: "get",
+                        data: { id: id },
+                        success: function (result) {
+                            $ctnr.html(result);
+                            $ctnr.css('background', '#ffc');
+                        }
+                    });
+                });
+            });
+
+            $('.add-ctgry').each(function () {
+                var $this = $(this);
+                var $ctnr = $this.parent('li');
+                $this.unbind('click');
+                $this.click(function () {
+                    var id = $this.attr('data-id');
+                    $ctnr.html('<img src="/Content/Images/busy_h.gif" />');
+                    $.ajax({
+                        url: '/category/editctgry/',
+                        type: "get",
+                        data: { id: id, pid:$this.attr('data-pid') },
+                        success: function (result) {
+                            $ctnr.html(result);
+                            $ctnr.css('background', '#ffc');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

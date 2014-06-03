@@ -1,0 +1,27 @@
+﻿@model Rdt.CourseFinder.Entities.User
+
+@{
+    ViewBag.Title = Model.Name + " - Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul id="subMenu">
+    <li>
+        <a href="/Users"><i class="icon-home"></i>User Home</a>
+    </li>
+</ul>
+<div class="p20">
+    <h5>@Model.Name</h5>
+    <div class="bld">@Model.Email</div>
+    <div  class="bld">@Model.Role</div>
+    <hr />
+    <h6>User Logs</h6>
+    <table class="small-table">
+        @foreach (var item in Model.UserLogs)
+        {
+            <tr>
+                <td>@DisplayHelper.DateTime(item.CreatedOn, DateTypes.WithTime)</td>
+                <td>@item.Comment</td>
+            </tr>
+        }
+    </table>
+</div>

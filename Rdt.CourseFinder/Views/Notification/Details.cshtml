@@ -1,0 +1,15 @@
+﻿@model List<Rdt.CourseFinder.Services.NotifyItem>
+    <h5>Tasks</h5>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Tasks</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+                <td>@item.Message</td>
+            </tr>
+        }
+    </table>

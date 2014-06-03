@@ -1,0 +1,45 @@
+﻿@model Rdt.CourseFinder.Models.CandidateSummaryVm
+
+<table class="edit-table">
+    <tr>
+        <th>#</th>
+        <th>Category</th>
+        @foreach (var stat in Model.Status)
+        {
+            <th>@stat.Key</th>
+        }
+        <th>Total</th>
+    </tr>
+    @{var cnt = 1;}
+    @foreach (var grp in Model.CandidateGroups)
+    {
+        <tr>
+            <td>@(cnt++)</td>
+            <td class="summ-cmp-nam">@grp.Key</td>
+            @{var stsGrp = grp.GroupBy(m => m.ToString());}
+            @foreach (var stat in Model.Status)
+            {
+                if (grp.Contains(stat.Key))
+                {
+                <td>@stsGrp.Single(s => s.Key == stat.Key).Count()</td>
+                }
+                else
+                {
+                <td>-</td>
+                }
+            }
+            <td class="bld">@grp.Count()</td>
+        </tr>
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        @foreach (var stat in Model.Status)
+        {
+            <td class="bld">@stat.Count()</td>
+        }
+        <td>@Model.Candidates.Count()</td>
+    </tr>
+</table>
+
+

@@ -1,0 +1,75 @@
+﻿@model Rdt.CourseFinder.Entities.Candidate
+
+@*@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+<style>
+    #candCancelBtn a, #canCanFrm a
+    {
+        padding: 3px 20px;
+        color: #fff;
+        background: #b22;
+    }
+</style>
+<div class="cand-details">
+    @*<a href="/candidate/edit/@Model.CandidateId" class="ft-r"><i class="icon-edit"></i> Edit</a>*@
+    @Html.DisplayForModel()
+    <br />
+    <div id="candCancelBtn">
+        <div>Current Status: <b>@Model.CandidateStatus.Name</b></div>
+        <br />
+        <a class="btn">Cancel Candidate</a>
+    </div>
+
+    <form action="/candidate/cancel" class="hide" method="post" id="canCanFrm">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.CandidateId" />
+        <textarea name="reason" style="width: 90%" placeholder="Candidate Cancel Reason"></textarea>
+        <a class="btn-gray">Cancel Candidate</a>
+    </form>
+    <br />
+    <h5>Candidate Log History</h5>
+    <div class="log-ctnr">
+        <table class="small-table" id="prjLogs">
+            <tr>
+                <th>Date</th>
+                <th>User</th>
+                <th>Log</th>
+            </tr>
+            @foreach (var item in Model.CandidateLogs)
+            {
+                <tr>
+                    <td>@DisplayHelper.DateTime(item.CreatedOn, DateTypes.DateOnly)</td>
+                    <td>@item.ByUserName</td>
+                    <td>@item.Log</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/_time.js"></script>
+<script>
+    $(function () {
+        $('.log-ctnr').slimScroll({
+            height: 100
+        });
+        $('#candCancelBtn').click(function () {
+            $(this).hide();
+            $('#canCanFrm').show();
+
+        });
+
+        var $frm = $('#canCanFrm');
+        $frm.find('a').click(function () {
+            $.ajax({
+                url: '/candidate/cancel/',
+                method: 'post',
+                data: $frm.serialize(),
+                success: function () {
+                    $frm.html("Candidate Cancelled")
+                }
+            });
+        });
+    });
+</script>

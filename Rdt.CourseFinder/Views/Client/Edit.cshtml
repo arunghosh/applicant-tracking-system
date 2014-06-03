@@ -1,0 +1,45 @@
+﻿@model Rdt.CourseFinder.Entities.Company
+@using (Html.BeginForm("Edit", "Client", FormMethod.Post, new { @class = "new-frm save-clse-frm", data_refresh = "true", id = "newEventFrm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.CompanyId)
+
+    <div>
+        @Html.LabelFor(m => m.CompanyName)
+        @Html.TextBoxFor(m => m.CompanyName)
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.Country)
+        @Html.TextBoxFor(m => m.Country)
+    </div>
+    
+    <div class="sav-can">
+        <a class="btn btn-cancel">Cancel</a>
+        @if (Model.IsNew)
+        {
+            <button class="submit btn-primary">Add Company</button>
+        }
+        else
+        {
+            <button class="submit btn-primary">Update Company</button>
+        }
+        <img src="~/Content/images/busy.gif" class="frm-busy" />
+        <p>
+            @Html.ValidationSummary()
+        </p>
+
+        <div class="server-vald-msg validation-summary-errors" data-valmsg-summary="true">
+        </div>
+    </div>
+        
+    <p>
+        @Html.ValidationSummary()
+    </p>
+
+    <div class="server-vald-msg validation-summary-errors" data-valmsg-summary="true">
+    </div>  
+}
+<br />
+
+<script src="~/Scripts/_save-clse-frm.js"></script>

@@ -1,0 +1,14 @@
+﻿@model Rdt.CourseFinder.Models.NavigationVm
+<ul class="span nav nav-tabs">
+    @foreach (var ni in Model.ImageItems)
+    {
+        <li class="@(ni.PageType == Model.SelectePage ? "active" : "")">
+            <a href="@ni.TinyUrl">
+                <div class="ta-c">
+                <img src="/Content/Images/@ni.ImageUrl"/>
+                </div>
+                <div>@ni.DisplayText</div>
+            </a>
+        </li>
+    }
+</ul>

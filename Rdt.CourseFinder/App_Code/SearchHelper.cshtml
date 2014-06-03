@@ -1,0 +1,110 @@
+﻿@using Rdt.CourseFinder.Services
+
+@helper DispayGroup(FilterBase filterGrp, string autoComplete = null)
+{
+    var items = filterGrp.MasterFilters;
+    var title = filterGrp.Name;
+    var seleName = filterGrp.CkboxName;
+    var expId = string.Format("{0}_f_g", title);
+    <div data-exp-target="@expId" class="exp-title">
+        <input id='@("_" + seleName)' value="@filterGrp.IsExpanded.ToString()" type="hidden" name='@("_" + seleName)'/>
+        <span class="exp-icon @(filterGrp.IsExpanded?"icon-ch-d":"icon-ch-r")"></span>
+        @filterGrp.DisplayName
+    </div>
+    
+    if (items.Any())
+    {
+    <ul class="ltype-none filter-ul" id="@expId" style='display:@(filterGrp.IsExpanded?"inherit":"none")'>
+        @{var all = items.Any(i => i.IsChecked) ? "" : "checked";}
+        <li class="@all">
+            <input type="checkbox" id="@seleName" value="_all_" data-group="@seleName" disabled="disabled" @all/>
+            <label for="@seleName">
+                <span>Any</span>
+            </label>
+        </li>
+        @foreach (var item in items)
+        {
+            var id = seleName + items.IndexOf(item);
+            <li class="@item.Status">
+                <input type="checkbox" id="@id" value="@item.ValueText" name="@seleName" disabled="disabled" @item.Status/>
+                <label for="@id">
+                    <span>@item.DisplayText</span>
+                    <span class="ft-r filter-cnt">@item.Count</span>
+                </label>
+                @if(item.ItemId != null)
+                {
+                    <i class="icon-edit" data-url="@item.EditUrl" data-title="@item.DisplayText - Edit"></i>
+                }
+            </li>            
+        }
+        @if (!string.IsNullOrWhiteSpace(autoComplete) && !filterGrp.ShowAll)
+        {
+            <li>
+                <input type="text" class="filter-txt" name="@seleName" data-autocomplete-source='@autoComplete' placeholder="Add another @title" disabled="disabled" />
+            </li>
+        }
+    </ul>
+    }
+}
+
+
+@helper MiniPageControl(int total, int perPage, int index)
+{
+    if (total > 0)
+    {
+        var fir = 1;
+        var last = Math.Ceiling((float)total / (float)perPage);
+        var dLast = (index * perPage);
+    <ul id="pageMiniCtnr">
+        <li class="bld">@((index - 1) * perPage + 1) - @(dLast > total ? total : dLast) of @total</li>
+        <li data-page="@fir"><< First</li>
+        <li data-page="@((index > fir) ? (index - 1) : fir)">< Prev</li>
+        <li data-page="@(index < last ? (index + 1) : last)">Next ></li>
+        <li data-page="@last">Last >></li>
+    </ul>
+    }
+    else
+    {
+    <h4>No matching results found.</h4>
+    }
+}
+
+@helper PageControl(int total, int index)
+{
+    if (total > 0)
+    {
+        <ul id="pageCtnr">
+            @for (int i = 1; i <= total; i++)
+            {
+                if (i == index)
+                {
+                <li class="btn span selected">@i.ToString()</li>
+                }
+                else
+                {
+                <li class="btn span">@i.ToString()</li>
+                }
+            }
+        </ul>
+    }
+    else
+    {
+        <h4>No matching results found.</h4>
+    }
+}
+@helper DispayGroupStat(FilterBase filterGrp)
+{
+    var items = filterGrp.FilterItems;
+    var title = filterGrp.Name;
+    var expId = string.Format("{0}_f_g", title);
+    <div class="fstat-head">@filterGrp.DisplayName</div>
+    <ul class="fltr-stat">
+        @foreach (var item in items)
+        {
+            <li class="ta-r">
+                <span >@item.DisplayText</span>
+                <div class="filter-cnt">@item.Count</div>
+            </li>            
+        }
+    </ul>
+}

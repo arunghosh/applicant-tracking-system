@@ -1,0 +1,33 @@
+﻿@model List<Rdt.CourseFinder.Entities.Project>
+
+@{
+    ViewBag.Title = Routes.GetTitile(PageTypes.Projects);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul id="subMenu">
+    <li>
+        <a class="new-obj" data-title="Add Project" data-method="get" data-url="/Project/Edit"><i class="icon-plus-sign"></i>New Project</a>
+    </li>
+</ul>
+<div class="p20">
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Project Name</th>
+            <th>Company</th>
+            <th>Created On</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+                <td><a href="/Project/Details/@item.ProjectId">@item.ProjectName</a></td>
+                <td>@item.Company.CompanyName</td>
+                <td>@DisplayHelper.DateTime(item.CreatedOn, DateTypes.DateOnly)</td>
+                <td><a class="new-obj btn-gray" data-title="Edit Project" data-method="get" data-url="/Project/Edit/@item.ProjectId"><i class="icon-edit"></i>Edit</a></td>
+            </tr>
+        }
+    </table>
+</div>

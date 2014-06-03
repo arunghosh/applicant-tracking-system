@@ -1,0 +1,40 @@
+﻿@model Rdt.CourseFinder.Entities.Company
+
+@{
+    ViewBag.Title = Model.CompanyName + " - Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul id="subMenu">
+    <li>
+        <a class="new-obj" data-title="Add Project" data-method="get" data-url="/Project/Edit"><i class="icon-plus"></i>New Project</a>
+    </li>
+    <li>
+        <a href="/Company"><i class="icon-list"></i>Company List</a>
+    </li>
+</ul>
+<div class="p20">
+    <h5>@Model.CompanyName Projects</h5>
+    <br />
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>Project Name</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Created On</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Projects)
+        {
+            <tr>
+                <td><a href="/Project/Details/@item.ProjectId">@item.ProjectName</a></td>
+                <td>@item.Status</td>
+                <td>@DisplayHelper.DateTime(item.StartDate, DateTypes.DateOnly)</td>
+                <td>@DisplayHelper.DateTime(item.DueDate, DateTypes.DateOnly)</td>
+                <td>@DisplayHelper.DateTime(item.CreatedOn, DateTypes.DateOnly)</td>
+                <td><a class="new-obj btn-gray" data-title="Edit Project" data-method="get" data-url="/Project/Edit/@item.ProjectId"><i class="icon-edit"></i>Edit</a></td>
+            </tr>
+        }
+    </table>
+</div>

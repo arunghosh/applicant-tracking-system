@@ -1,0 +1,32 @@
+﻿@model List<Rdt.CourseFinder.Entities.User>
+
+@{
+    ViewBag.Title = Routes.GetTitile(PageTypes.Users);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul id="subMenu">
+    <li>
+        <a class="new-obj" data-title="Add User" data-method="get" data-url="/User/Edit"><i class="icon-plus-sign"></i>New User</a>
+    </li>
+</ul>
+<div class="p20">
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Joined On</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Where(u => !u.IsBlocked))
+        {
+            <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+                <td><a href="/user/details/@item.UserId">@item.Name</a></td>
+                <td>@item.Role</td>
+                <td>@DisplayHelper.DateTime(item.CreatedOn, DateTypes.DateOnly)</td>
+                <td><a class="new-obj btn-gray" data-title="Edit User" data-method="get" data-url="/User/Edit/@item.UserId"><i class="icon-edit"></i>Edit</a></td>
+            </tr>
+        }
+    </table>
+</div>

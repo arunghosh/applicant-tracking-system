@@ -1,0 +1,74 @@
+﻿@model Rdt.CourseFinder.Models.CandidateSearchVm
+
+@{var hasFilters = Model.HasFilters;
+  var cart = UserSession.CartItems;}
+<div class="span" style="width: 500px; margin: 0 0 0 10px; font-family: 'Segoe UI', sans-serif">
+    <ul id="filter-summ">
+        @{var isAnyFil = false;}
+        @if (!string.IsNullOrEmpty(Model.Name))
+        {
+            isAnyFil = true;
+            <li class="item"><span>@Model.Name</span><span class="close">&times;</span></li>
+        }
+        @foreach (var grp in Model.Filters.Where(f => f.IsList))
+        {
+            foreach (var item in grp.MasterFilters.Where(i => i.IsChecked))
+            {
+                isAnyFil = true;
+                var id = grp.CkboxName + grp.MasterFilters.IndexOf(item);
+            <li class="item"><span>@item.DisplayText</span><span class="close" data-id="@id">&times;</span></li>
+            }
+        }
+        @if (isAnyFil)
+        {
+            <li>
+                <button class="reset-btn">Reset</button></li>
+        }
+    </ul>
+    <hr />
+
+    @if (hasFilters)
+    {
+        <h6>@Model.FilteredItems.Count() Results</h6>
+        <hr />
+        <div>
+            <ul style="list-style: none;">
+                @foreach (var item in Model.PagedItems)
+                {
+                    <li class="user-info">
+                        <div>
+                            <span class="bld fs-l">@item.Name</span>
+                            <span class="dim">(@item.Passport)</span>
+                        </div>
+                        <div class="dim">@item.City</div>
+                        <div class="dim">
+                            Grade @item.Grade,  @item.Category
+                        </div>
+
+                    </li>
+                }
+            </ul>
+        </div>
+        <div>
+            @SearchHelper.MiniPageControl(Model.TotalCandidates.Count(), Model.ItemsPerPage, Model.PageIndex)
+        </div>
+    }
+    else
+    {
+        <h6>No filter selected</h6>
+    }
+</div>
+@if (hasFilters)
+{
+    <div id="srchStat">
+        @*<button class="btn-primary btn-mail" style="float: right; margin-right: 33px;"><i class="icon-envelope icon-white"></i>Mail Statistics</button>*@
+        <div style="clear: both;">
+        </div>
+        <div class="sub-head">Result Statistics</div>
+        @foreach (var grp in Model.Filters.Where(f => f.IsList && f.FilterItems.Any()))
+        {
+            @SearchHelper.DispayGroupStat(grp)
+        }
+    </div>
+}
+

@@ -1,0 +1,18 @@
+﻿@model List<Rdt.CourseFinder.Entities.UserLog>
+
+@{
+    ViewBag.Title = "Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p20">
+    <table class="small-table">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="min-w">@DisplayHelper.DateTime(item.CreatedOn, DateTypes.WithTime)</td>
+                <td>@item.Comment</td>
+            </tr>
+        }
+    </table>
+</div>

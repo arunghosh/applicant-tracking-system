@@ -1,0 +1,101 @@
+﻿@model Rdt.CourseFinder.Models.ProjectSearchVm
+
+@{
+    var cart = UserSession.CartItems;}
+<div class="span" style="width: 728px; margin: 10px 0 0 0px; float: right;">
+    <ul id="filter-summ">
+        @{var isAnyFil = false;}
+        @if (!string.IsNullOrEmpty(Model.Name))
+        {
+            isAnyFil = true;
+            <li class="item"><span>Name: @Model.Name</span><span class="close" data-id="name">&times;</span></li>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Passport))
+        {
+            isAnyFil = true;
+            <li class="item"><span>Passport# @Model.Passport</span><span class="close" data-id="pass">&times;</span></li>
+        }
+        @foreach (var grp in Model.Filters.Where(f => f.IsList))
+        {
+            foreach (var item in grp.MasterFilters.Where(i => i.IsChecked))
+            {
+                isAnyFil = true;
+                var id = grp.CkboxName + grp.MasterFilters.IndexOf(item);
+            <li class="item"><span>@item.DisplayText</span><span class="close" data-id="@id">&times;</span></li>
+            }
+        }
+        @if (isAnyFil)
+        {
+            <li>
+                <button class="reset-btn">Reset</button></li>
+        }
+    </ul>
+    @if (Model.TotalCandidates.Count() > 0)
+    {
+        <div>
+            <table class="table rslt-table">
+                <tr class="tble-ctrls">
+                    <td colspan="5">@SearchHelper.MiniPageControl(Model.TotalCandidates.Count(), Model.ItemsPerPage, Model.PageIndex)</td>
+                </tr>
+                <tr style="background: #f9f9f9">
+                    <td colspan="2">
+                        <div id="statusMsg">0 # selected</div>
+                    </td>
+                    <td colspan="1" style="min-width: 65px;">
+                        <div class="stat-chge-btn">Travel Details<span class="caret"></span></div>
+                        <div class="stat-lst">
+                            @{Html.RenderPartial("TravelDetails", new Rdt.CourseFinder.Models.TravelDetailsVm());}
+                        </div>
+                    </td>
+                    <td colspan="2">
+                        <div class="stat-chge-btn">Emigration Check<span class="caret"></span></div>
+                        <ul class="stat-lst">
+                            <li class="ec-ck" data-req="true">Required</li>
+                            <li class="ec-ck" data-req="false">Not Required</li>
+                            <li class="ec-ck" data-done="true">Done</li>
+                            <li class="ec-ck" data-done="false">Not Done</li>
+                        </ul>
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>
+                        <input id="allCk" type="checkbox" /></th>
+                    <th>Passport #</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <td>
+                        <div class="stat-chge-btn">Status<span class="caret"></span></div>
+                        <ul class="stat-lst">
+                            @foreach (var status in UserSession.CanidateStatus)
+                            {
+                                <li class="stat-item @(status.IsPositive ? "" : "negative")" data-id="@status.CandidateStatusId" data-abbr="@status.Abbrevation">@status.Name</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+                @foreach (var item in Model.PagedItems)
+                {
+                    <tr  data-id="@item.CandidateId">
+                        <td class="c-ck">
+                            <div class="ck-icon"></div>
+                        </td>
+                        <td class="c-ck">@item.Passport</td>
+                        <td><a class="new-obj" data-title="Details" data-url="/Candidate/Details/@item.CandidateId" data-method="get">@item.Name</a>
+                            <span class="@item.EcState">@item.EcState</span>
+                        </td>
+                        <td class="c-ck">@item.Category</td>
+                        <td class="c-ck">
+                            <div class="r-st @item.CandidateStatus.Abbrevation">@item.CandidateStatus.Name</div>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5">@SearchHelper.MiniPageControl(Model.TotalCandidates.Count(), Model.ItemsPerPage, Model.PageIndex)</td>
+                </tr>
+            </table>
+        </div>
+    }
+</div>
+

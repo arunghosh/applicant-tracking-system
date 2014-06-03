@@ -1,0 +1,24 @@
+﻿@model string
+<script>
+    $(function () {
+        var pid = $('#projectId').val();
+        $('#@Model .edit-line').each(function () {
+            var $this = $(this);
+            var $ctnr = $this.parents('.edit-ctnr');
+            $this.unbind('click');
+            $this.click(function () {
+                var rid = $this.attr('data-id');
+                $ctnr.html('<img src="/Content/Images/busy_h.gif" />');
+                $.ajax({
+                    url: '/@Model/edit/' + rid,
+                    type: "Get",
+                    data: { prjId: pid },
+                    success: function (result) {
+                        $ctnr.html(result);
+                        $ctnr.css('background', '#ffc');
+                    }
+                });
+            });
+        });
+    });
+</script>

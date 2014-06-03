@@ -1,0 +1,61 @@
+﻿@model string
+<script>
+    jQuery($(function () {
+        var pid = $('#projectId').val();
+        $(".datepicker").each(function () {
+            var $this = $(this);
+            var utc = new Date($this.val());
+            utc.setMinutes(utc.getMinutes() - utc.getTimezoneOffset());
+            $this.val(utc.toLocaleDateString());
+            $this.datepicker();
+        });
+
+        $('.@Model .edit-remove').click(function () {
+            var $form = $(this).parents('form');
+            $.ajax({
+                url: '/@Model/remove',
+                type: "post",
+                data: $form.serialize(),
+                success: function (result) {
+                    $.ajax({
+                        url: '/@Model/list/' + pid,
+                        type: "Get",
+                        success: function (result) {
+                            $('#@Model' + 'Ctnr').html(result);
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.@Model .edit-cancel').click(function () {
+            $.ajax({
+                url: '/@Model/list/' + pid,
+                type: "Get",
+                success: function (result) {
+                    $('#@Model' + 'Ctnr').html(result);
+                }
+            });
+        });
+
+        $('.@Model .edit-save').click(function () {
+            var $form = $(this).parents('form');
+            $.ajax({
+                url: '/@Model/edit',
+                type: "post",
+                data: $form.serialize(),
+                success: function (result) {
+                    $.ajax({
+                        url: '/@Model/list/' + pid,
+                        type: "Get",
+                        success: function (result) {
+                            $('#@Model' + 'Ctnr').html(result);
+                        }
+                    });
+                }
+            });
+        });
+    }));
+
+
+</script>

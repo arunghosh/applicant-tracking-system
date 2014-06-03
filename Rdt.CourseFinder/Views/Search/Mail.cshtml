@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Mail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="/Admin/NewsLetter/Email" method="post" class="save-clse-frm">
+    @Html.AntiForgeryToken()
+    <div style="padding: 20px">
+        <div>
+            <input type="email" placeholder="Send to Email Address" />
+        </div>
+        <div>
+            <a id="edit" class="btn-gray ft-r"><i class="icon-edit"></i>Edit</a>
+            <pre id="msg">@Html.Raw(ViewBag.Stat.Replace(Environment.NewLine, "<br/>"))</pre>
+        </div>
+        <br />
+        <div class="ta-r">
+            <a class="btn btn-cancel">Cancel</a>
+            <button type="submit" class="btn-primary">Send</button>
+            <img src="~/Content/images/busy.gif" class="frm-busy" />
+        </div>
+        <p>
+            @Html.ValidationSummary()
+        </p>
+
+    </div>
+</form>
+@section Scripts{
+    <script src="~/Scripts/_save-clse-frm.js"></script>
+    <script src="~/Scripts/CKEditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#edit').click(function () {
+                CKEDITOR.replace('msg');
+                $(this).hide();
+            });
+        });
+    </script>
+}

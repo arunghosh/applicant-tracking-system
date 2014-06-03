@@ -1,0 +1,22 @@
+﻿@model Rdt.CourseFinder.Entities.Milestone
+<td></td>
+<td colspan="7">
+    <form action="/milestone/edit" method="post" class="milestone table-frm">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ProjectId)
+        @Html.HiddenFor(m => m.MilestoneId)
+        @Html.HiddenFor(m => m.MilestoneType)
+        @if (Model.MilestoneType == Rdt.CourseFinder.Entities.MilestoneTypes.Status)
+        {
+            @Html.DropDownList("CandidateStatusId")
+        }
+        else
+        {
+            @Html.EditorFor(m => m.Name)
+        }
+        <input type="text" name="ExpectedDate" class="datepicker" value="@Model.ExpectedDate.ToString("MM/dd/yyyy")" />
+        <a class="edit-save btn">Save</a>
+        <a class="edit-cancel btn">Cancel</a>
+    </form>
+</td>
+@{Html.RenderPartial("_ItemEditScript", "milestone");}

@@ -1,0 +1,12 @@
+﻿@model Rdt.CourseFinder.Entities.Requirement
+@Html.HiddenFor(m => m.ProjectId)
+@Html.HiddenFor(m => m.RequirementId)
+<tr>
+    <td>
+        @Html.DropDownList("Category", new SelectList(Rdt.CourseFinder.Services.DbCache.Instance.Categories, Model.Category))
+    </td>
+    <td>
+    @Html.EditorFor(m => m.Count)
+    </td>
+</tr>
+

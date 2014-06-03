@@ -1,0 +1,20 @@
+﻿@model Rdt.CourseFinder.Entities.Requirement
+<td></td>
+<td colspan="7">
+    <form action="/requirement/edit" method="post" class="table-frm requirement">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ProjectId)
+        @Html.HiddenFor(m => m.RequirementId)
+        @Html.TextBoxFor(m => m.Category, new { data_autocomplete_source = Url.Action(Routes.AcCategory) })
+        @*@Html.DropDownList("Category", new SelectList(Rdt.CourseFinder.Services.DbCache.Instance.Categories, Model.Category))*@
+        @Html.EditorFor(m => m.Count)
+        <a class="edit-save btn">Save</a>
+        <a class="edit-cancel btn">Cancel</a>
+        @if (!Model.IsNew)
+        {
+            <a class="edit-remove btn">Remove</a>
+        }
+    </form>
+</td>
+@{Html.RenderPartial("_ItemEditScript", "requirement");}
+<script src="~/Scripts/_common.js"></script>

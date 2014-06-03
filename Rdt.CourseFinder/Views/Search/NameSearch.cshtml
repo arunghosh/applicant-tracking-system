@@ -1,0 +1,8 @@
+﻿@model Rdt.CourseFinder.Models.CandidateSearchVm
+@using (Html.BeginForm("Index", "Search", new { area = "" }))
+{
+    <input type="text" class="search-txt" name="CourseName" placeholder="Search by Passport Number" />
+    @*<i class="search-icon icon-search icon-white btn" ></i>*@
+    <button class="search-icon"><i class="icon-search" ></i></button>
+}
+

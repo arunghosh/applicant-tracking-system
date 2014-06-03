@@ -1,0 +1,80 @@
+﻿@model Rdt.CourseFinder.Models.SignInRequest
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>RDT LionATS - RH</title>
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        #loginCtnr input
+        {
+            width: 200px;
+            padding: 5px 5px 4px 5px;
+        }
+
+        #loginCtnr label
+        {
+            padding: 15px 10px 4px 0px;
+            display: block;
+            color: #ddd;
+        }
+
+        #loginCtnr
+        {
+            padding: 15px 25px 30px 35px;
+            background: rgba(0,0,0,.6);
+            border-radius: 0 0 3px 3px;
+        }
+    </style>
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+</head>
+<body style="text-align: center; background-image: url('/Content/Images/main_bg.jpg'); margin: 0">
+    <div style="text-align: center; background: rgba(100,100,100,.6)">
+        <div class="main-align" style="min-height: 700px;">
+
+            <div style="text-align: center;">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div style="display: inline-block; margin: 16% auto; border-radius: 3px; text-align: left; width: 450px; box-shadow: 0px 0px 46px 0px rgba(0,0,0,.7);">
+                        <div style="font-size: 17px; padding: 16px 20px 5px 35px; color: #666; background: rgba(255,255,255,.8); letter-spacing: .5px; font-family: bebasregular; word-spacing: 2px; border-radius: 3px 3px 0 0;">
+                            Login <span style="color: #28c">Credentials</span>
+                        </div>
+                        <div id="loginCtnr">
+                            <div>@Html.LabelFor(m => m.Email) </div>
+                            <div class="input-prepend">
+                                <span class="add-on">
+                                    <i class="icon-envelope"></i>
+                                </span>
+                                @Html.TextBoxFor(m => m.Email)
+                            </div>
+                            <div>@Html.LabelFor(m => m.Password) </div>
+                            <div class="input-prepend">
+                                <span class="add-on">
+                                    <i class="icon-lock"></i>
+                                </span>@Html.PasswordFor(m => m.Password)
+                            </div>
+                            <div>
+                                <br />
+                                <button class="btn-primary" type="submit" style="padding: 4px 30px;">Login</button>
+                            </div>
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿@helper TableGraph(int max, int value, int width)
+{
+    double maxCnt = max > value ? max : value;
+    double pxPerCnt = width / maxCnt;
+    
+    if (max == 0)
+    {
+        <div>--</div>
+    }
+    else
+    {
+        <div style="width:@(width)px;background:#777;padding:2px 4px 2px 1px" class="graph-intable">
+            <div class="graph-intable"  style="width:@(value * pxPerCnt)px">(@value/@max) @(value * 100 / max)%</div>
+        </div>
+    }
+}
+

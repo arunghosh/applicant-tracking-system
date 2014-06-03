@@ -1,0 +1,39 @@
+﻿@model List<Rdt.CourseFinder.Entities.CandidateStatus>
+
+@{
+    ViewBag.Title = "Candidate Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul id="subMenu">
+    <li>
+        <a class="new-obj" data-title="Add Status" data-method="get" data-url="/candidatestatus/Edit"><i class="icon-plus-sign"></i>New Status</a>
+    </li>
+    <li>
+        <a href="/setting/"><i class="icon-home"></i>Settings Home</a>
+    </li>
+</ul>
+
+<div class="p20">
+    <h5>Candidate States</h5>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Updated by</th>
+            <th>Anyone can update?</th>
+            <th>Is Positive?</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+                <td>@item.Name (@item.Abbrevation)</td>
+                <td>@item.CanBeUpdatedBy</td>
+                <td>@item.IsUpdateByAll</td>
+                <td>@item.IsPositive</td>
+                <td><a class="new-obj btn-gray" data-title="Edit Status" data-method="get" data-url="/candidatestatus/Edit/@item.CandidateStatusId"><i class="icon-edit"></i>Edit</a></td>
+            </tr>
+        }
+    </table>
+</div>

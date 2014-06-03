@@ -1,0 +1,34 @@
+﻿@model Rdt.CourseFinder.Entities.Import
+
+<div class="new-frm p20">
+    <h4 style="display: block;">Import Data From Excel</h4>
+    @using (Html.BeginForm("Edit", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken();
+        <div>
+            @Html.Label("Project")
+            @Html.DropDownList("ProjectId", null, new { @class = "", id = "dllInsti" })
+        </div>
+        <div>
+            @Html.Label("Comments")
+            @Html.TextBoxFor(m => m.Remark)
+        </div>
+        <div>
+
+            @Html.Label("Excel File")
+            <input type="file" name="profile" class="dim" />
+        </div>
+        <br />
+        <div>
+            <a href="/Import/Index" class="btn">Cancel</a>
+            <button class="btn-primary" type="submit">Import</button>
+        </div>
+    }
+    <br />
+    @if ((string)ViewData[Constants.ViewDataMsgKey] != null)
+    {
+        <pre style="color: #04a; font-weight: bold; font-family: 'Courier New'">@ViewData[Constants.ViewDataMsgKey]</pre> 
+    }
+    <hr />
+</div>
+

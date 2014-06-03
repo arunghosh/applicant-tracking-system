@@ -1,0 +1,118 @@
+﻿@model Rdt.CourseFinder.Models.CalenderVm
+
+@{
+    ViewBag.Title = Routes.GetTitile(PageTypes.TravelCalendar);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .trvl-bar:hover
+    {
+        background: #666;
+    }
+
+
+    .trvl-bar
+    {
+        display: inline-block;
+        cursor: pointer;
+        border-radius: 0 4px 4px 0;
+        margin: 0px 5px 0 4px;
+        color: transparent;
+        height: 15px;
+        vertical-align: middle;
+        background: #bbb;
+    }
+
+        .trvl-bar.selected
+        {
+            background: #5bf;
+        }
+
+    #travelBar .time
+    {
+    }
+    #travelBar
+    {
+        font-size: 12px;
+        width: 400px;
+        display: inline-block;
+    }
+
+    #travelDetails
+    {
+        width: 500px;
+float: right;
+display: inline-block;
+border-left: 1px solid #ddd;
+padding: 0 0 0 34px;
+    }
+
+    .clndr-frm input
+    {
+        width:100px;
+        margin-right:10px;
+    }
+    .clndr-frm
+    {
+background: #f3f3f3;
+padding: 28px 10px 10px 10px;
+margin-top: -18px;
+    }
+</style>
+
+<div>
+    <form action="/calendar/index" method="post" class="clndr-frm">
+        From @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker" })
+        To @Html.TextBoxFor(m => m.EndDate, new { @class = "datepicker" })
+        <button type="submit" class="btn-primary" style="padding: 3px 20px">Submit</button>
+    </form>
+    <br />
+    @if (Model.Result.Any())
+    {
+        var scale = 300 / Model.MaxCnt;
+        <div id="travelBar">
+            <div>Candidates travelling from <span class="h-light">@DisplayHelper.DateTime(Model.StartDate, DateTypes.WithDay)</span> to <span class="h-light">@DisplayHelper.DateTime(Model.EndDate, DateTypes.WithDay)</span> </div>
+            <hr />
+            <table>
+                @foreach (var item in Model.Result.OrderBy(i => i.Key))
+                {
+                    <tr>
+                        <td>@item.Key.ToString("dd MMM yy")</td>
+                        <td>
+                            <div class="trvl-bar" data-date='@item.Key.ToString("MM/dd/yyyy")' style="width:@(item.Count() * scale)px;">.</div>@item.Count()
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+    }
+    else
+    {
+        <div>No candidates found</div>
+    }
+    <div id="travelDetails">
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $('.trvl-bar').click(function () {
+                var $this = $(this);
+                $('.trvl-bar').removeClass('selected');
+                $this.addClass('selected');
+                $('#travelDetails').html(busyImg);
+                $.ajax({
+                    url: '/calendar/details?date=' + $this.attr('data-date'),
+                    type: 'post',
+                    traditional: true,
+                    success: function (result) {
+                        $('#travelDetails').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+}

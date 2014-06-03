@@ -1,0 +1,24 @@
+﻿@model List<Rdt.CourseFinder.Entities.Candidate>
+<div>Candidates travelling on <span class="h-light">@DisplayHelper.DateTime(Model[0].TravelDate, DateTypes.WithDay)</span></div>
+<hr />
+<table class="small-table">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Passport</th>
+        <th>Airlines</th>
+        <th>Boarding</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+            <td>@item.Name</td>
+            <td>@item.Passport</td>
+            <td>@item.Airlines</td>
+            <td>@item.BoardingCity</td>
+        </tr>
+    }
+</table>
+
+<script src="~/Scripts/_time.js"></script>

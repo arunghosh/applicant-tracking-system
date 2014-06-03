@@ -1,0 +1,61 @@
+﻿@model Rdt.CourseFinder.Entities.Project
+@using (Html.BeginForm("Edit", "Project", FormMethod.Post, new { @class = "new-frm save-clse-frm", data_refresh = "true", id = "newEventFrm", style = "width:550px;" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ProjectId)
+    <div>
+        <div>
+            @Html.LabelFor(m => m.ProjectName)
+            @Html.TextBoxFor(m => m.ProjectName)
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Company)
+            @Html.DropDownList("CompanyId")
+        </div>
+    </div>
+    if (Model.IsNew)
+    {
+    <div>
+        @Html.LabelFor(m => m.StartDate)
+        <input class="datepicker" type="text" name="StartDate" value="@Model.StartDate.ToString("MM/dd/yy")" />
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.DueDate)
+        <input class="datepicker" type="text" name="DueDate" value="@Model.DueDate.ToString("MM/dd/yy")" />
+    </div>
+    }
+    
+    <div class="sav-can">
+        <a class="btn btn-cancel">Cancel</a>
+        @if (Model.IsNew)
+        {
+            <button class="submit btn-primary">Add Project</button>
+        }
+        else
+        {
+            <button class="submit btn-primary">Update Project</button>
+        }
+        <img src="~/Content/images/busy.gif" class="frm-busy" />
+    </div>
+        
+    <p>
+        @Html.ValidationSummary()
+    </p>
+
+    <div class="server-vald-msg validation-summary-errors" data-valmsg-summary="true">
+    </div>  
+}
+<br />
+
+<script src="~/Scripts/_save-clse-frm.js"></script>
+<script>
+    $('.datepicker').datepicker();
+    $(".datepicker").each(function () {
+        var $this = $(this);
+        var utc = new Date($this.val());
+        utc.setMinutes(utc.getMinutes() - utc.getTimezoneOffset());
+        $this.val(utc.toLocaleDateString());
+    });
+</script>

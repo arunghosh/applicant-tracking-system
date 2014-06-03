@@ -1,0 +1,200 @@
+﻿@model Rdt.CourseFinder.Models.ProjectSearchVm
+
+@{
+    ViewBag.Title = Routes.GetTitile(PageTypes.Find);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="searchCtnr">
+    <div id="filterCtnr">
+        @using (Html.BeginForm())
+        {
+            <div id="txt-filter-ctnr">
+                <input name="Name" id="name" placeholder="Candidate Name" />
+                <input name="Passport" id="Passport" placeholder="Passport #" />
+            </div>
+            @Html.HiddenFor(m => m.ProjectName)
+            @Html.HiddenFor(m => m.ProjectId)
+            @Html.HiddenFor(m => m.PageIndex)
+            @Html.Hidden("output", "normal")
+            foreach (var grp in Model.Filters.Where(f => f.IsList))
+            {
+            @SearchHelper.DispayGroup(grp, Url.Action(grp.AutoComplete))
+            }
+        }
+    </div>
+    <div id="srchRslt">
+        @Html.Partial("Result", Model)
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        var SrcRslt = new function () {
+            var $headSele = $('.stat-chge-btn');
+            var $table = $('.rslt-table');
+            var $tr = $table.find('tr');
+            var $travelFrm = $('#travelFrm');
+
+            var getCheckedIds = function () {
+                return $('.rslt-table .selected').map(function () {
+                    return $(this).attr('data-id');
+                }).get();
+            };
+
+            var clearAll = function () {
+                $headSele.hide();
+                $('.stat-lst').hide();
+                return $('.rslt-table .selected').removeClass('selected');
+            };
+
+            var udpateStatMsg = function (msg) {
+                $('#statusMsg').html(msg);
+            };
+
+            var updateHeader = function () {
+                var count = getCheckedIds().length;
+                if (count > 0) {
+                    $headSele.show();
+                } else {
+                    $headSele.hide();
+                }
+                udpateStatMsg(count + ' # selected');
+
+            };
+
+            this.regRowClck = function () {
+                $tr.each(function () {
+                    var $this = $(this);
+                    $this.find('.c-ck').click(function () {
+                        $this.toggleClass('selected');
+                        updateHeader();
+                        $('#allCk').prop('checked', false);
+                    });
+                });
+            };
+
+            this.regAllClck = function () {
+                $('#allCk').change(function () {
+                    var checked = $(this).prop('checked');
+                    if (checked) {
+                        $tr.addClass('selected');
+                        $headSele.show();
+                    } else {
+                        $tr.removeClass('selected');
+                        $headSele.hide();
+                    }
+                    updateHeader();
+                });
+            };
+
+            this.regEcCheck = function () {
+                $('.stat-lst li.ec-ck').click(function () {
+                    var $this = $(this);
+                    var checked = getCheckedIds();
+                    var stateName = $this.html();
+                    var isReq = $this.attr('data-req');
+                    var isDone = $this.attr('data-done');
+                    $this.html('<img src="/Content/Images/busy_h.gif" />');
+                    $.ajax({
+                        url: '/Candidate/UpdateEcCheck',
+                        type: 'post',
+                        traditional: true,
+                        data: { ids: checked, isReq: isReq, isDone: isDone },
+                        success: function (result) {
+                            if (result.status) {
+                                var cnt = 0;
+                                checked.forEach(function (id) {
+                                    var $item = $('tr[data-id=' + id + '] span');
+                                    $item.removeClass();
+                                    $item.addClass(result.msg[cnt]);
+                                    $item.html(result.msg[cnt]);
+                                    cnt++;
+                                });
+                                udpateStatMsg(checked.length + ' updated');
+                                clearAll();
+                            }
+                            else {
+                                alert("Update Failed.\n" + result.msg);
+                            }
+                            $this.html(stateName);
+                        }
+                    });
+                });
+            };
+
+            this.regTrvlDetails = function () {
+
+                $travelFrm.find('.save-btn').click(function () {
+                    var checked = getCheckedIds();
+                    var $img = $travelFrm.find('img');
+                    $img.show();
+                    $.ajax({
+                        url: '/Candidate/updatetravel',
+                        type: 'post',
+                        traditional: true,
+                        data: $travelFrm.serialize().concat("&idsStr=" + checked),
+                        success: function (result) {
+                            if (result) {
+                                udpateStatMsg(checked.length + ' updated');
+                                clearAll();
+                            }
+                            else {
+                                alert("Update Failed");
+                            }
+                            $img.hide();
+                        }
+                    });
+                });
+
+            };
+
+            this.regStateChange = function () {
+
+                $('.stat-chge-btn').click(function () {
+                    $(this).next('.stat-lst').toggle('fade');
+                });
+
+                $('.stat-lst li.stat-item').click(function () {
+                    var checked = getCheckedIds();
+                    var $this = $(this);
+                    var stateName = $this.html();
+                    var stateId = $this.attr('data-id');
+                    var stateAbbr = $this.attr('data-abbr');
+                    $this.html('<img src="/Content/Images/busy_h.gif" />');
+                    $.ajax({
+                        url: '/Candidate/UpdateStatus',
+                        type: 'post',
+                        traditional: true,
+                        data: { ids: checked, status: stateId },
+                        success: function (result) {
+                            if (result.status) {
+                                checked.forEach(function (id) {
+                                    var $item = $('tr[data-id=' + id + '] .r-st');
+                                    $item.removeClass();
+                                    $item.addClass('r-st');
+                                    $item.addClass(stateAbbr);
+                                    $item.html(stateName);
+                                });
+                                udpateStatMsg(checked.length + ' updated');
+                                clearAll();
+                            }
+                            else {
+                                alert("Update Failed.\n" + result.msg);
+                            }
+                            $this.html(stateName);
+                        }
+                    });
+                });
+            };
+        };
+
+        $(function () {
+            SrcRslt.regRowClck();
+            SrcRslt.regAllClck();
+            SrcRslt.regStateChange();
+            SrcRslt.regEcCheck();
+            SrcRslt.regTrvlDetails();
+        });
+    </script>
+    <script src="~/Scripts/_search.js"></script>
+}

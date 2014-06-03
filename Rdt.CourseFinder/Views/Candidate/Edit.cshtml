@@ -1,0 +1,56 @@
+﻿@model Rdt.CourseFinder.Entities.Candidate
+
+@{
+    ViewBag.Title = "Candidate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin: 10px 0px">
+    <h2>@Model.Name</h2>
+    @using (Html.BeginForm("Edit", "Candidate", FormMethod.Post, new { @class = "new-frm save-clse-frm", data_refresh = "false", style = "padding:1px;" }))
+    {
+        @Html.HiddenFor(m => m.CandidateId)
+        @Html.HiddenFor(m => m.IsDeleted)
+        @Html.HiddenFor(m => m.IsEcCheckDone)
+        @Html.HiddenFor(m => m.IsEcCheckReq)
+        @Html.HiddenFor(m => m.CreationType)
+        @Html.HiddenFor(m => m.CreatedOn)
+        <div>
+            @Html.LabelFor(m => m.Project)
+            @Html.DropDownList("ProjectId", null, new { @class = "" })
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Category)
+            @Html.DropDownList("Category", null, new { @class = "" })
+        </div>
+        @Html.AntiForgeryToken()
+        @Html.EditorForModel()
+        <div>
+            @Html.LabelFor(m => m.CandidateStatus)
+            @Html.DropDownList("CandidateStatusId", null, new { @class = "" })
+        </div>
+        <div class="sav-can">
+            @if (Model.IsNew)
+            {
+                <button class="submit btn-primary">Add Candidate</button>
+            }
+            else
+            {
+                <button class="submit btn-primary">Update Candidate</button>
+            }
+            <a class="btn btn-cancel" href="/candidate/edit/@Model.CandidateId">Reload</a>
+            <img src="~/Content/images/busy.gif" class="frm-busy" />
+            <p>
+                @Html.ValidationSummary()
+            </p>
+
+            <div class="server-vald-msg validation-summary-errors" data-valmsg-summary="true">
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/_save-clse-frm.js"></script>
+}

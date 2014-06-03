@@ -1,0 +1,39 @@
+﻿@model List<Rdt.CourseFinder.Entities.Import>
+
+@{
+    ViewBag.Title = Routes.GetTitile(PageTypes.Imports);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul id="subMenu">
+    <li>
+        <a href="/Import/Edit"><i class="icon-plus-sign"></i>New Import</a>
+    </li>
+</ul>
+<div class="p20">
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Project Name</th>
+            <th>By</th>
+            <th>Imported on</th>
+            <th>Total</th>
+            <th>Successful</th>
+            <th>Skipped</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(item) + 1)</td>
+                <td>@item.Project.ProjectName</td>
+                <td>@item.UserName</td>
+                <td>@DisplayHelper.DateTime(item.CreatedOn, DateTypes.DateOnly)</td>
+                <td>@item.TotalCount</td>
+                <td>@item.SuccessCount</td>
+                <td>@item.SkippedCount</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+@section Scripts{}

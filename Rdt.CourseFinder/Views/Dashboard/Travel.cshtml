@@ -1,0 +1,35 @@
+﻿@model List<Rdt.CourseFinder.Entities.Project>
+
+
+<div>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>Project Name</th>
+            <th>Medical Rxd</th>
+            <th>Documents Send</th>
+            <th>Visa Arrived</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            var medRcvdCnt = item.Candidates.Where(c => c.IsMedicalReceived).Count();
+            var docSend = item.Candidates.Where(c => c.IsDocumentSend).Count();
+            var visaRxd = item.Candidates.Where(c => c.IsStatusComplete(Constants.SID_VisaReceived)).Count();
+            
+            <tr>
+                <td>
+                    <form action="/ProjectSearch/Index" method="post">
+                        <input type="hidden" name="_selePrj" value="@item.ProjectName" />
+                        <button class="link" type="submit">@item.ProjectName</button>
+                    </form>
+                </td>
+                <td>@medRcvdCnt</td>
+                <td>
+                    @GraphHelper.TableGraph(medRcvdCnt, docSend, 150)
+                </td>
+                <td>
+                    @GraphHelper.TableGraph(medRcvdCnt, visaRxd, 150)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -1,0 +1,13 @@
+﻿@helper DateTime(DateTime? time, Rdt.CourseFinder.DateTypes type)
+{
+    if (time != null)
+    {
+        System.Globalization.CultureInfo cultureInfoUS = new System.Globalization.CultureInfo("en-US", false);
+        var code = time.Value.ToString("yyyy/MM/dd/HH/mm", cultureInfoUS);
+        <div data-format='@type.ToString()' class='time' data-utc='@code'></div>
+    }
+    else
+    {
+        <div>--</div>
+    }
+}

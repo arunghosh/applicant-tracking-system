@@ -1,0 +1,57 @@
+﻿@model Rdt.CourseFinder.Entities.CandidateStatus
+
+@using (Html.BeginForm("Edit", "CandidateStatus", FormMethod.Post, new { @class = "new-frm save-clse-frm", data_refresh = "true", id = "newEventFrm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.CandidateStatusId)
+
+    <div>
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name)
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.Abbrevation)
+        @Html.TextBoxFor(m => m.Abbrevation)
+    </div>
+    
+    
+    <div>
+        @Html.LabelFor(m => m.CanBeUpdatedBy)
+        @Html.DropDownList("CanBeUpdatedBy", Model.CanBeUpdatedBy.ToSelectList())
+    </div>
+    
+    <div style="margin:17px 0 12px 0">
+        @Html.CheckBoxFor(m => m.IsPositive)
+        <label for="IsPositive" class="d-ib"  style="display:inline">Is this a positive state</label>
+    </div>
+    
+    <div style="margin:10px 0">
+        @Html.CheckBoxFor(m => m.IsUpdateByAll)
+        <label for="IsUpdateByAll" class="d-ib" style="display:inline">Can this state be updated by all</label>
+    </div>
+
+    <div class="sav-can">
+        <a class="btn btn-cancel">Cancel</a>
+        @if (Model.IsNew)
+        {
+            <button class="submit btn-primary">Add Status</button>
+        }
+        else
+        {
+            <button class="submit btn-primary">Update Status</button>
+        }
+        <img src="~/Content/images/busy.gif" class="frm-busy" />
+    </div>
+        
+    <p>
+        @Html.ValidationSummary()
+    </p>
+
+    <div class="server-vald-msg validation-summary-errors" data-valmsg-summary="true">
+    </div>  
+}
+<br />
+
+<script src="~/Scripts/_save-clse-frm.js"></script>
+

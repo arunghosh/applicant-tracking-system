@@ -1,0 +1,58 @@
+﻿@model Rdt.CourseFinder.Models.UserCreateVm
+
+@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "new-frm save-clse-frm", data_refresh = "true", id = "newEventFrm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.UserId)
+
+    <div>
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.Role)
+        @Html.DropDownList("Role")
+    </div>
+    
+    <div>
+        @Html.LabelFor(m => m.Email)
+        @Html.EditorFor(m => m.Email)
+    </div>
+    if (Model.IsNew)
+    {    
+    <div>
+        Note: Password will be reset <em>rh1234</em>
+    </div>
+    }
+    else
+    {
+    @Html.CheckBoxFor(m => m.IsBlocked) <label for="IsBlocked" style="display: inline-block; margin: 5px 0 0 0; vertical-align: bottom; padding: 0 0 0 4px;">Block User</label>
+    }
+   
+    <div class="sav-can">
+        <a class="btn btn-cancel">Cancel</a>
+        @if (Model.IsNew)
+        {
+
+            <button class="submit btn-primary">Add User</button>
+        }
+        else
+        {
+            <button class="submit btn-primary">Update User</button>
+        }
+        <img src="~/Content/images/busy.gif" class="frm-busy" />
+    </div>
+        
+    <p>
+        @Html.ValidationSummary()
+    </p>
+
+    <div class="server-vald-msg validation-summary-errors" data-valmsg-summary="true">
+    </div>  
+}
+<br />
+
+<script src="~/Scripts/_save-clse-frm.js"></script>
+
+

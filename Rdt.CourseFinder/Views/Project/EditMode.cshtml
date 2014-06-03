@@ -1,0 +1,43 @@
+﻿@model Rdt.CourseFinder.Entities.Project
+
+@{
+    ViewBag.Title = Model.ProjectName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul id="subMenu">
+    <li>
+        <a href="/Project/Details/@Model.ProjectId"><i class="icon-list"></i>Details: @Model.ProjectName</a>
+    </li>
+    <li>
+        <a href="/Projects"><i class="icon-home"></i>Projects</a>
+    </li>
+
+</ul>
+<div class="p20">
+    <input type="hidden" id="projectId" value="@Model.ProjectId" />
+    <div>
+        <h2 class="d-ib">Project: @Model.ProjectName</h2>
+        <a class="new-obj btn-simple" style="margin-left:10px;" data-title="Edit Project" data-method="get" data-url="/Project/Edit/@Model.ProjectId"><i class="icon-edit"></i></a>
+    </div>
+    <div class="sub-mar">
+        <table class="main-table">
+            <tr>
+                <td class="field">Company</td>
+                <td class="value">@Model.Company.CompanyName, @Model.Company.Country</td>
+            </tr>
+        </table>
+        <br />
+        <br />
+<h5>Requirements</h5>
+        <div id="requirementCtnr" class="lazy-load" data-url="/requirement/list/@Model.ProjectId">
+        </div>
+        <br />
+        <br />
+        <h5>Milestones</h5>
+        <div id="milestoneCtnr" class="lazy-load" data-url="/milestone/list/@Model.ProjectId">
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+}

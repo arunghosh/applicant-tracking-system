@@ -1,0 +1,42 @@
+﻿@model Rdt.CourseFinder.Models.TravelDetailsVm
+<style>
+    #travelFrm .save-btn
+    {
+        color: #fff;
+    }
+
+    #travelFrm .cancel-btn
+    {
+        margin-left: 0;
+    }
+
+    #travelFrm label
+    {
+        display: block;
+        font-weight: bold;
+    }
+
+    #travelFrm
+    {
+        background: #fff;
+        text-align: left;
+        width: 300px;
+        padding: 15px;
+    }
+</style>
+<form id="travelFrm">
+    @Html.LabelFor(m => m.TravelDate)
+    @Html.TextBoxFor(m => m.TravelDate, new {@class="datepicker"})
+
+    @Html.LabelFor(m => m.Airlines)
+    @Html.TextBoxFor(m => m.Airlines)
+
+
+    @Html.LabelFor(m => m.BoardingCity)
+    @Html.TextBoxFor(m => m.BoardingCity)
+
+    <div>
+        <a class="save-btn btn-primary">Update travel details</a>
+        <img class="frm-busy" src="~/Content/Images/busy_h.gif" />
+    </div>
+</form>

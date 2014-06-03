@@ -1,0 +1,13 @@
+﻿@model List<Rdt.CourseFinder.Services.NotifyItem>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li class="ntfyMsg" title="@item.Message">
+
+            <form action="/projectsearch/index" method="post">
+                <input type="hidden" name="_seleStat" value="@item.Status" />
+                <button>@item.Count</button>
+            </form>
+        </li>
+    }
+</ul>
