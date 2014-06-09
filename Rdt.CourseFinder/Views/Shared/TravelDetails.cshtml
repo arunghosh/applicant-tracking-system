@@ -1,32 +1,7 @@
 ﻿@model Rdt.CourseFinder.Models.TravelDetailsVm
-<style>
-    #travelFrm .save-btn
-    {
-        color: #fff;
-    }
-
-    #travelFrm .cancel-btn
-    {
-        margin-left: 0;
-    }
-
-    #travelFrm label
-    {
-        display: block;
-        font-weight: bold;
-    }
-
-    #travelFrm
-    {
-        background: #fff;
-        text-align: left;
-        width: 300px;
-        padding: 15px;
-    }
-</style>
-<form id="travelFrm">
+<form data-url="/candidate/updatetravel" class="a-srch-frm srch-update-frm">
     @Html.LabelFor(m => m.TravelDate)
-    @Html.TextBoxFor(m => m.TravelDate, new {@class="datepicker"})
+    <input type="text" name="TravelDate" value="@Model.TravelDate.Tommddyy()" class="datepicker" />
 
     @Html.LabelFor(m => m.Airlines)
     @Html.TextBoxFor(m => m.Airlines)

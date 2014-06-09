@@ -33,7 +33,6 @@
             var $headSele = $('.stat-chge-btn');
             var $table = $('.rslt-table');
             var $tr = $table.find('tr');
-            var $travelFrm = $('#travelFrm');
 
             var getCheckedIds = function () {
                 return $('.rslt-table .selected').map(function () {
@@ -122,30 +121,53 @@
                 });
             };
 
-            this.regTrvlDetails = function () {
 
-                $travelFrm.find('.save-btn').click(function () {
-                    var checked = getCheckedIds();
-                    var $img = $travelFrm.find('img');
-                    $img.show();
-                    $.ajax({
-                        url: '/Candidate/updatetravel',
-                        type: 'post',
-                        traditional: true,
-                        data: $travelFrm.serialize().concat("&idsStr=" + checked),
-                        success: function (result) {
-                            if (result) {
-                                udpateStatMsg(checked.length + ' updated');
-                                clearAll();
+            this.regUpdateFrms = function () {
+                $(".a-srch-frm").each(function () {
+                    var $this = $(this);
+                    $(this).find('.save-btn').click(function () {
+                        var checked = getCheckedIds();
+                        var $img = $this.find('img');
+                        $img.show();
+                        $.ajax({
+                            url: $this.attr('data-url'),
+                            type: 'post',
+                            traditional: true,
+                            data: $this.serialize().concat("&idsStr=" + checked),
+                            success: function (result) {
+                                debugger;
+                                if (result.errMsg) {
+                                    alert("Update Failed! " + result.errMsg);
+                                }
+                                else {
+                                    udpateStatMsg(checked.length + ' updated');
+                                    clearAll();
+                                }
+                                $img.hide();
                             }
-                            else {
-                                alert("Update Failed");
-                            }
-                            $img.hide();
-                        }
+                        });
                     });
                 });
+            };
 
+            this.regTrvlPost = function () {
+                $tr.each(function () {
+                    var $this = $(this);
+                    $this.find('.travel-post a').click(function () {
+                        var $a = $(this);
+                        $a.html('<img src="/Content/Images/busy_h.gif" />');
+                        debugger;
+                        $.ajax({
+                            url: '/travelpost/updatestatus',
+                            type: 'post',
+                            traditional: true,
+                            data: { id: $this.attr('data-id'), sid:$a.attr('data-status') },
+                            success: function (result) {
+                                $a.html('<i class="icon-ok icon-white"></i>');
+                            }
+                        });
+                    });
+                });
             };
 
             this.regStateChange = function () {
@@ -193,7 +215,8 @@
             SrcRslt.regAllClck();
             SrcRslt.regStateChange();
             SrcRslt.regEcCheck();
-            SrcRslt.regTrvlDetails();
+            SrcRslt.regUpdateFrms();
+            SrcRslt.regTrvlPost();
         });
     </script>
     <script src="~/Scripts/_search.js"></script>

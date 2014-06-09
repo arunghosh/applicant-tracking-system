@@ -58,6 +58,28 @@ namespace Rdt.CourseFinder.Entities
         [Display(Name = "Boarding City")]
         public string BoardingCity { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [Display(Name = "Medical Done Date")]
+        public DateTime? MedicalDoneDate { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [Display(Name = "Medical Expiry Date")]
+        public DateTime? MedicalExpiryDate { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [Display(Name = "Visa Issued Date")]
+        public DateTime? VisaIssuesDate { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [Display(Name = "Visa Expiry Date")]
+        public DateTime? VisaExpiryDate { get; set; }
+
+        [Display(Name = "Visa Deposited")]
+        public bool IsVisaDeposited { get; set; }
+
+        [Display(Name = "Travel Postponement")]
+        public TravelPostStates TravelPostponement { get; set; }
+
         [Display(Name = "EC Required")]
         [TemplatesVisibility(ShowForEdit = false)]
         public bool IsEcCheckReq { get; set; }
@@ -112,7 +134,7 @@ namespace Rdt.CourseFinder.Entities
         public Candidate()
         {
             CandidateLogs = new List<CandidateLog>();
-            IsEcCheckDone = IsEcCheckReq = false;
+            IsEcCheckDone = IsEcCheckReq = IsVisaDeposited = false;
             StatusUpdatedAt = DateTime.UtcNow;
         }
 
@@ -197,6 +219,19 @@ namespace Rdt.CourseFinder.Entities
                 throw new SimpleException(string.Format("Failed to update status to 'Travelled'. Travel date of '{0}' is not a past date.", Name));
             }
         }
+
+        //public void ValidateVisaStatus()
+        //{
+        //    if (Constants.SID_VisaReceived == CandidateStatusId && TravelDate == null)
+        //    {
+        //        throw new SimpleException(string.Format("Failed to update status to 'Travelled'. Travel date not set for '{0}'", Name));
+        //    }
+
+        //    if (Constants.SID_Travelled == CandidateStatusId && TravelDate >= DateTime.Now)
+        //    {
+        //        throw new SimpleException(string.Format("Failed to update status to 'Travelled'. Travel date of '{0}' is not a past date.", Name));
+        //    }
+        //}
 
         private void ValidateEcCheck()
         {

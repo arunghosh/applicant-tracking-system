@@ -5,14 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .trvl-bar:hover
-    {
+    .trvl-bar:hover {
         background: #666;
     }
 
 
-    .trvl-bar
-    {
+    .trvl-bar {
         display: inline-block;
         cursor: pointer;
         border-radius: 0 4px 4px 0;
@@ -23,47 +21,45 @@
         background: #bbb;
     }
 
-        .trvl-bar.selected
-        {
+        .trvl-bar.selected {
             background: #5bf;
         }
 
-    #travelBar .time
-    {
+    #travelBar .time {
     }
-    #travelBar
-    {
+
+    #travelBar {
         font-size: 12px;
         width: 400px;
         display: inline-block;
     }
 
-    #travelDetails
-    {
+    #travelDetails {
         width: 500px;
-float: right;
-display: inline-block;
-border-left: 1px solid #ddd;
-padding: 0 0 0 34px;
+        float: right;
+        display: inline-block;
+        border-left: 1px solid #ddd;
+        padding: 0 0 0 34px;
     }
 
-    .clndr-frm input
-    {
-        width:100px;
-        margin-right:10px;
+    .clndr-frm input {
+        width: 100px;
+        margin-right: 10px;
     }
-    .clndr-frm
-    {
-background: #f3f3f3;
-padding: 28px 10px 10px 10px;
-margin-top: -18px;
+
+    .clndr-frm {
+        background: #f3f3f3;
+        padding: 28px 10px 10px 10px;
+        margin-top: -18px;
     }
 </style>
 
 <div>
     <form action="/calendar/index" method="post" class="clndr-frm">
-        From @Html.TextBoxFor(m => m.StartDate, new { @class = "datepicker" })
-        To @Html.TextBoxFor(m => m.EndDate, new { @class = "datepicker" })
+        <span>From </span>
+        <input type="text" name="StartDate" value="@Model.StartDate.Tommddyy()" class="datepicker" />
+        <span>To</span>
+        <input type="text" name="EndDate" value="@Model.EndDate.Tommddyy()" class="datepicker" />
         <button type="submit" class="btn-primary" style="padding: 3px 20px">Submit</button>
     </form>
     <br />

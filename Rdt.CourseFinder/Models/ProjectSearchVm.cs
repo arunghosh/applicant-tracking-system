@@ -69,7 +69,7 @@ namespace Rdt.CourseFinder.Models
 
         public override void FillMasterList()
         {
-            MasterList = _db.Candidates.Include(c => c.Project).ToList();
+            MasterList = _db.Candidates.Where(c => c.CandidateStatus.IsPositive).Include(c => c.Project).ToList();
         }
 
         public override void AddFilters()

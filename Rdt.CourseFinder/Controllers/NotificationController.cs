@@ -29,5 +29,16 @@ namespace Rdt.CourseFinder.Controllers
                 return PartialView(srv.GetNotifications());
             }
         }
+
+        public PartialViewResult VisaDeposit()
+        {
+            var today = DateTime.Now.Date;
+            var visaNotifyDate = today.AddDays(3).Date;
+            var candidates = _db.Candidates
+                                .Where(c => !c.IsVisaDeposited).ToList()
+                                .Where(c => c.TravelDate != null && c.TravelDate.Value <= visaNotifyDate && c.TravelDate >= today)
+                                .ToList();
+            return PartialView(candidates);            
+        }
     }
 }

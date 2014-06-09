@@ -27,11 +27,12 @@ namespace Rdt.CourseFinder.Infrastructure
         {
             var adminPages = new List<NavigationItem>();
 
-            adminPages.Add(Routes.NavigationItems[PageTypes.Users]);
+            adminPages.Add(Routes.NavigationItems[PageTypes.Dashboard]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Company]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Projects]);
-            adminPages.Add(Routes.NavigationItems[PageTypes.TravelCalendar]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Imports]);
+            adminPages.Add(Routes.NavigationItems[PageTypes.TravelCalendar]);
+            adminPages.Add(Routes.NavigationItems[PageTypes.Users]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Setting]);
             _pages.Add(UserRoleType.Admin, adminPages);
 

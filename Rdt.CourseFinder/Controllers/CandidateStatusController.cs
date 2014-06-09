@@ -15,7 +15,36 @@ namespace Rdt.CourseFinder.Controllers
         public ActionResult Index()
         {
             CurrentPage = PageTypes.Setting;
-            return View(_db.CandidateStatuses.ToList());
+            return View(_db.CandidateStatuses.ToList().OrderBy(c => c.Index).ToList());
+        }
+
+
+        [HttpPost]
+        public JsonResult UpdateIndex(int id, int value)
+        {
+            var status = true;
+            try
+            {
+                var statusList = _db.CandidateStatuses.ToList();
+                var canStat = statusList.Single(c => c.CandidateStatusId == id);
+                var oldIndex = canStat.Index;
+                var newIndex = oldIndex + value;
+                var swapCanStat = statusList.FirstOrDefault(c => c.Index == newIndex);
+
+                if (swapCanStat != null)
+                {
+                    swapCanStat.Index = oldIndex;
+                    _db.Entry(swapCanStat).State = System.Data.EntityState.Modified;
+                }
+                canStat.Index = newIndex;
+                _db.Entry(canStat).State = System.Data.EntityState.Modified;
+                _db.SaveChanges();
+            }
+            catch
+            {
+                status = false;
+            }
+            return Json(status);
         }
 
         [HttpGet]

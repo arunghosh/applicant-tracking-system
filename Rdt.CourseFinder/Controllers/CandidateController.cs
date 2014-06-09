@@ -16,18 +16,112 @@ namespace Rdt.CourseFinder.Controllers
         [HttpPost]
         public JsonResult UpdateTravel(TravelDetailsVm model, string idsStr)
         {
-            var ids = new List<int>();
-            idsStr.Split(',').ToList().ForEach(c => ids.Add(int.Parse(c)));
+            try
+            {
+                var user = CurrentUser;
+                var ids = GetIds(idsStr);
+                var candidates = _db.Candidates.Where(c => ids.Contains(c.CandidateId)).ToList();
+                foreach (var item in candidates)
+                {
+                    if (item.TravelDate != null && item.TravelPostponement != TravelPostStates.Approved)
+                    {
+                        throw new SimpleException("Request travel postponement for " + item.Name);
+                    }
+                    item.TravelDate = model.TravelDate;
+                    item.BoardingCity = model.BoardingCity;
+                    item.TravelPostponement = TravelPostStates.NotRequested;
+                    item.Airlines = model.Airlines;
+                    _db.Entry(item).State = System.Data.EntityState.Modified;
+                    var cLog = item.CreateLog("Updated Travel Details", user);
+                    _db.CandidateLogs.Add(cLog);
+                }
+                var uLog = user.CreateLog("Updated travel details of ( " + string.Join(", ", candidates.Select(c => c.Passport)) + " )");
+                _db.UserLogs.Add(uLog);
+                _db.SaveChanges();
+            }
+            catch (SimpleException ex)
+            {
+                AddModelError(ex);
+            }
+            return GetErrorMsgJSON();
+        }
+
+        [HttpPost]
+        public JsonResult UpdateMedical(MedicalDetailsVm model, string idsStr)
+        {
+            var user = CurrentUser;
+            var ids = GetIds(idsStr);
             var candidates = _db.Candidates.Where(c => ids.Contains(c.CandidateId)).ToList();
             foreach (var item in candidates)
             {
-                item.TravelDate = model.TravelDate;
-                item.BoardingCity = model.BoardingCity;
-                item.Airlines = model.Airlines;
+                item.MedicalDoneDate = model.DoneDate;
+                item.MedicalExpiryDate = model.ExpiryDate;
                 _db.Entry(item).State = System.Data.EntityState.Modified;
+                var cLog = item.CreateLog("Updated Medical Details", user);
+                _db.CandidateLogs.Add(cLog);
+
             }
+            var uLog = user.CreateLog("Updated medical details of ( " + string.Join(", ", candidates.Select(c => c.Passport)) + " )");
+            _db.UserLogs.Add(uLog);
             _db.SaveChanges();
             return GetErrorMsgJSON();
+        }
+
+
+        [HttpPost]
+        public JsonResult UpdateVisa(MedicalDetailsVm model, string idsStr)
+        {
+            var ids = GetIds(idsStr);
+            var user = CurrentUser;
+            var candidates = _db.Candidates.Where(c => ids.Contains(c.CandidateId)).ToList();
+            foreach (var item in candidates)
+            {
+                item.VisaIssuesDate = model.DoneDate;
+                item.VisaExpiryDate = model.ExpiryDate;
+                _db.Entry(item).State = System.Data.EntityState.Modified;
+
+                var cLog = item.CreateLog("Updated Visa Details", user);
+                _db.CandidateLogs.Add(cLog);
+
+            }
+            var uLog = user.CreateLog("Updated Visa details of ( " + string.Join(", ", candidates.Select(c => c.Passport)) + " )");
+            _db.UserLogs.Add(uLog);
+
+            _db.SaveChanges();
+            return GetErrorMsgJSON();
+        }
+
+        [HttpPost]
+        public JsonResult SetVisaDeposit(int id)
+        {
+            var status = true;
+            try
+            {
+                var user = CurrentUser;
+                var candidate = _db.Candidates.Find(id);
+                candidate.IsVisaDeposited = true;
+                _db.Entry(candidate).State = System.Data.EntityState.Modified;
+
+                var cLog = candidate.CreateLog("Updated Visa Deposit", user);
+                _db.CandidateLogs.Add(cLog);
+
+                var uLog = user.CreateLog("Updated Visa deposit of " + candidate.Passport);
+                _db.UserLogs.Add(uLog);
+
+                _db.SaveChanges();
+            }
+            catch
+            {
+                status = false;
+            }
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
+        private List<int> GetIds(string idsStr)
+        {
+            var ids = new List<int>();
+            idsStr.Split(',').ToList().ForEach(c => ids.Add(int.Parse(c)));
+            return ids;
         }
 
         public PartialViewResult Summary(int id)
@@ -116,7 +210,7 @@ namespace Rdt.CourseFinder.Controllers
                 _db.UserLogs.Add(activityLog);
                 _db.SaveChanges();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 updateStatus = false;
                 msg = ex.Message;
@@ -157,7 +251,7 @@ namespace Rdt.CourseFinder.Controllers
                             : _db.Candidates.Find(id);
             var projects = _db.Projects.ToList();
             var status = DbCache.Instance.CanditStatus;
-            if (model.IsNew) 
+            if (model.IsNew)
             {
                 model.ProjectId = projects[0].ProjectId;
                 model.CandidateStatusId = status[0].CandidateStatusId;
@@ -196,7 +290,7 @@ namespace Rdt.CourseFinder.Controllers
                     _db.CandidateLogs.Add(cLog);
                     _db.SaveChanges();
                 }
-                catch(SimpleException ex)
+                catch (SimpleException ex)
                 {
                     AddModelError(ex);
                 }

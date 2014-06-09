@@ -130,7 +130,7 @@ namespace Rdt.CourseFinder.Controllers
                         break;
                     case UserRoleType.Admin:
                     default:
-                        url = Routes.NavigationItems[PageTypes.Projects].TinyUrl;
+                        url = Routes.NavigationItems[PageTypes.Dashboard].TinyUrl;
                         break;
                 }
                 //var request = System.Web.HttpContext.Current.Request;

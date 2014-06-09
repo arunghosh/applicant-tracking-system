@@ -155,6 +155,7 @@
     <Compile Include="Controllers\RequirementController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\TravelPostController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Entities\Candidate.cs" />
     <Compile Include="Entities\CandidateCreateType.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Entities\ProjectStatus.cs" />
     <Compile Include="Entities\Requirement.cs" />
     <Compile Include="Entities\SubCategory.cs" />
+    <Compile Include="Entities\TravelPostTypes.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserLog.cs" />
     <Compile Include="Entities\UserOwnedEntity.cs" />
@@ -188,6 +190,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Constants.cs" />
+    <Compile Include="Infrastructure\DateExtension.cs" />
     <Compile Include="Infrastructure\DateTypes.cs" />
     <Compile Include="Infrastructure\RolePageMap.cs" />
     <Compile Include="Infrastructure\TemplateVisibilityAttribute.cs" />
@@ -263,9 +266,26 @@
     <Compile Include="Migrations\201403311245099_added_traveldetails.Designer.cs">
       <DependentUpon>201403311245099_added_traveldetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201406031238288_medical_details.cs" />
+    <Compile Include="Migrations\201406031238288_medical_details.Designer.cs">
+      <DependentUpon>201406031238288_medical_details.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201406040952546_added_visadetails.cs" />
+    <Compile Include="Migrations\201406040952546_added_visadetails.Designer.cs">
+      <DependentUpon>201406040952546_added_visadetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201406060439589_added_visa_deposit.cs" />
+    <Compile Include="Migrations\201406060439589_added_visa_deposit.Designer.cs">
+      <DependentUpon>201406060439589_added_visa_deposit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201406090647509_travelPostponement.cs" />
+    <Compile Include="Migrations\201406090647509_travelPostponement.Designer.cs">
+      <DependentUpon>201406090647509_travelPostponement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CalenderVm.cs" />
     <Compile Include="Models\CandidateSummaryVm.cs" />
+    <Compile Include="Models\MedicalDetails.cs" />
     <Compile Include="Models\PasswordVm.cs" />
     <Compile Include="Models\ProjectSearchVm.cs" />
     <Compile Include="Models\NavigationVm.cs" />
@@ -603,6 +623,18 @@
     <EmbeddedResource Include="Migrations\201403311245099_added_traveldetails.resx">
       <DependentUpon>201403311245099_added_traveldetails.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406031238288_medical_details.resx">
+      <DependentUpon>201406031238288_medical_details.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406040952546_added_visadetails.resx">
+      <DependentUpon>201406040952546_added_visadetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406060439589_added_visa_deposit.resx">
+      <DependentUpon>201406060439589_added_visa_deposit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406090647509_travelPostponement.resx">
+      <DependentUpon>201406090647509_travelPostponement.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -673,6 +705,11 @@
     <Content Include="Views\Shared\TravelDetails.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Calendar\Details.cshtml" />
+    <Content Include="Views\Shared\MedicalDetails.cshtml" />
+    <Content Include="Views\Shared\VisaDetails.cshtml" />
+    <Content Include="Views\Notification\VisaDeposit.cshtml" />
+    <Content Include="Views\Dashboard\Admin.cshtml" />
+    <Content Include="Views\TravelPost\PendingApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

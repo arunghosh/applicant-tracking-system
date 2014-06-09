@@ -9,3 +9,52 @@
     <br />
     @{Html.RenderAction("Details", "Notification");}
 </div>
+
+@section Scripts{
+    <script>
+        $('#visaDepoList .visa-depo').click(function () {
+            var $this = $(this);
+            $this.unbind('click');
+            $this.html('<img src="/Content/Images/busy_h.gif" />');
+            $this.removeClass('btn-primary');
+            $.ajax({
+                url: '/candidate/setvisadeposit/',
+                type: 'post',
+                traditional: true,
+                data: { id : $this.attr('data-id')},
+                success: function (result) {
+                    if (result == true) {
+                        $this.html("<i class='icon-ok icon-white'></i> updated");
+                        $this.css('background', "#393");
+                    } else {
+                        alert("Failed to update visa deposit status")
+                    }
+
+                }
+            });
+        });
+
+        $('#travelPostList .update-btn').click(function () {
+            var $this = $(this);
+            $this.unbind('click');
+            var $td = $this.parents('td');
+            debugger;
+            var sid = $(this).attr('data-status');
+            $td.html('<img src="/Content/Images/busy_h.gif" />');
+            $.ajax({
+                url: '/travelpost/updatestatus/',
+                type: 'post',
+                traditional: true,
+                data: { id: $td.attr('data-id'), sid:sid },
+                success: function (result) {
+                    if (result.status == true) {
+                        $td.html(result.msg);
+                    } else {
+                        alert("Failed")
+                    }
+
+                }
+            });
+        });
+    </script>
+}

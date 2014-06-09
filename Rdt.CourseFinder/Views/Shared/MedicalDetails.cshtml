@@ -1,0 +1,13 @@
+﻿@model Rdt.CourseFinder.Models.MedicalDetailsVm
+<form data-url="/candidate/updatemedical" class="a-srch-frm srch-update-frm">
+    @Html.LabelFor(m => m.DoneDate)
+    <input type="text" name="DoneDate" value="@Model.DoneDate.Tommddyy()" class="datepicker" />
+
+    @Html.LabelFor(m => m.ExpiryDate)
+    <input type="text" name="ExpiryDate" value="@Model.ExpiryDate.Tommddyy()" class="datepicker" />
+
+    <div>
+        <a class="save-btn btn-primary">Update Medical Details</a>
+        <img class="frm-busy" src="~/Content/Images/busy_h.gif" />
+    </div>
+</form>

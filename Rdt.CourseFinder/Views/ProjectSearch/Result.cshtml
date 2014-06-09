@@ -34,46 +34,63 @@
     @if (Model.TotalCandidates.Count() > 0)
     {
         <div>
-            <table class="table rslt-table">
-                <tr class="tble-ctrls">
-                    <td colspan="5">@SearchHelper.MiniPageControl(Model.TotalCandidates.Count(), Model.ItemsPerPage, Model.PageIndex)</td>
-                </tr>
-                <tr style="background: #f9f9f9">
-                    <td colspan="2">
-                        <div id="statusMsg">0 # selected</div>
-                    </td>
-                    <td colspan="1" style="min-width: 65px;">
-                        <div class="stat-chge-btn">Travel Details<span class="caret"></span></div>
-                        <div class="stat-lst">
-                            @{Html.RenderPartial("TravelDetails", new Rdt.CourseFinder.Models.TravelDetailsVm());}
-                        </div>
-                    </td>
-                    <td colspan="2">
-                        <div class="stat-chge-btn">Emigration Check<span class="caret"></span></div>
-                        <ul class="stat-lst">
-                            <li class="ec-ck" data-req="true">Required</li>
-                            <li class="ec-ck" data-req="false">Not Required</li>
-                            <li class="ec-ck" data-done="true">Done</li>
-                            <li class="ec-ck" data-done="false">Not Done</li>
-                        </ul>
-                    </td>
+            <div class="tble-ctrls" style="border: 1px solid #ddd">
+                <div class="d-ib" style="background: #f9f9f9; border-right: 1px solid #eee; margin: 0 10px 0 0">
+                    <div id="statusMsg">0 # selected</div>
+                </div>
 
-                </tr>
+                <div class="d-ib">@SearchHelper.MiniPageControl(Model.TotalCandidates.Count(), Model.ItemsPerPage, Model.PageIndex)</div>
+            </div>
+
+            <div style="border: 1px solid #ddd; border-width: 0 1px; min-height: 34px;">
+
+                <div class="d-ib">
+                    <div class="stat-chge-btn">Medical Details<span class="caret"></span></div>
+                    <div class="stat-lst">
+                        @{Html.RenderPartial("MedicalDetails", new Rdt.CourseFinder.Models.MedicalDetailsVm());}
+                    </div>
+                </div>
+
+                <div class="d-ib">
+                    <div class="stat-chge-btn">Visa Details<span class="caret"></span></div>
+                    <div class="stat-lst">
+                        @{Html.RenderPartial("VisaDetails", new Rdt.CourseFinder.Models.MedicalDetailsVm());}
+                    </div>
+                </div>
+
+                <div class="d-ib">
+                    <div class="stat-chge-btn">Travel Details<span class="caret"></span></div>
+                    <div class="stat-lst">
+                        @{Html.RenderPartial("TravelDetails", new Rdt.CourseFinder.Models.TravelDetailsVm());}
+                    </div>
+                </div>
+
+                <div class="d-ib">
+                    <div class="stat-chge-btn">Emigration Ck<span class="caret"></span></div>
+                    <ul class="stat-lst">
+                        <li class="ec-ck" data-req="true">Required</li>
+                        <li class="ec-ck" data-req="false">Not Required</li>
+                        <li class="ec-ck" data-done="true">Done</li>
+                        <li class="ec-ck" data-done="false">Not Done</li>
+                    </ul>
+                </div>
+            </div>
+            <table class="table rslt-table">
                 <tr>
                     <th>
                         <input id="allCk" type="checkbox" /></th>
                     <th>Passport #</th>
                     <th>Name</th>
                     <th>Category</th>
-                    <td>
-                        <div class="stat-chge-btn">Status<span class="caret"></span></div>
+                    <th colspan="2">
+                        <div class="stat-chge-btn p0">Status<span class="caret"></span></div>
                         <ul class="stat-lst">
                             @foreach (var status in UserSession.CanidateStatus)
                             {
                                 <li class="stat-item @(status.IsPositive ? "" : "negative")" data-id="@status.CandidateStatusId" data-abbr="@status.Abbrevation">@status.Name</li>
                             }
                         </ul>
-                    </td>
+                    </th>
                 </tr>
                 @foreach (var item in Model.PagedItems)
                 {
@@ -88,6 +105,28 @@
                         <td class="c-ck">@item.Category</td>
                         <td class="c-ck">
                             <div class="r-st @item.CandidateStatus.Abbrevation">@item.CandidateStatus.Name</div>
+                        </td>
+                        <td class="travel-post">
+                            @if (item.TravelDate != null)
+                            {
+                                switch (item.TravelPostponement)
+                                {
+                                    case TravelPostStates.NotRequested:
+                                        <a data-status="@((byte)TravelPostStates.Requested)" class="tp" title="Request Travel Postpone">Req</a>
+                                        break;
+                                    case TravelPostStates.Requested:
+                                        <a data-status="@((byte)TravelPostStates.NotRequested)" class="cr" title="Cancel Travel Postpone">Can</a>
+                                        break;
+                                    case TravelPostStates.Approved:
+                                        <div class="ap">AP</div>
+                                        break;
+                                    case TravelPostStates.Rejected:
+                                        <div class="rj">RJ</div>
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                         </td>
                     </tr>
                 }

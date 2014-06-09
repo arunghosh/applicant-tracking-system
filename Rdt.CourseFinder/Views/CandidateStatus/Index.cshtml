@@ -15,8 +15,9 @@
 
 <div class="p20">
     <h5>Candidate States</h5>
-    <table class="table table-hover table-bordered">
+    <table class="table table-hover table-bordered" id="statusList">
         <tr>
+            <th></th>
             <th>#</th>
             <th>Name</th>
             <th>Updated by</th>
@@ -27,6 +28,7 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td><i class="icon-chevron-up" data-id="@item.CandidateStatusId" data-val="-1"></i><i class="icon-ch-d" data-id="@item.CandidateStatusId" data-val="1"></i></td>
                 <td>@(Model.IndexOf(item) + 1)</td>
                 <td>@item.Name (@item.Abbrevation)</td>
                 <td>@item.CanBeUpdatedBy</td>
@@ -37,3 +39,23 @@
         }
     </table>
 </div>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $("#statusList i").click(function () {
+                var $this = $(this);
+                $.ajax({
+                    url: "/candidatestatus/UpdateIndex",
+                    type: "post",
+                    data: { id: $this.attr('data-id'), value:$this.attr('data-val') },
+                    success: function (result) {
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+
+}

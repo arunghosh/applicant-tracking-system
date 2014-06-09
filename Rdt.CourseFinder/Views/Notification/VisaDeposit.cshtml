@@ -1,0 +1,26 @@
+﻿@model List<Rdt.CourseFinder.Entities.Candidate>
+
+<h5>Please update the visa deposit status of the following</h5>
+<table class="table table-hover table-bordered" id="visaDepoList">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Passport #</th>
+        <th>Boarding</th>
+        <th>Travel Date</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@(Model.IndexOf(item) + 1)</td>
+            <td><a class="new-obj" data-title="Details" data-url="/Candidate/Details/@item.CandidateId" data-method="get">@item.Name</a></td>
+            <td>@item.Passport</td>
+            <td>@item.BoardingCity</td>
+            <td>@DisplayHelper.DateTime(item.TravelDate.Value, DateTypes.Medium)</td>
+            <td><a class="btn-primary visa-depo" data-id="@item.CandidateId">mark as done</a></td>
+        </tr>    
+    }
+</table>
+
+

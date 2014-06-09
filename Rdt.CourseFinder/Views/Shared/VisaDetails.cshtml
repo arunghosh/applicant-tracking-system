@@ -1,0 +1,13 @@
+﻿@model Rdt.CourseFinder.Models.MedicalDetailsVm
+<form data-url="/candidate/updatevisa" class="a-srch-frm srch-update-frm">
+    <label>Visa Issued Date</label>
+    <input type="text" name="DoneDate" value="@Model.DoneDate.Tommddyy()" class="datepicker" />
+
+    <label>Visa Expiry Date</label>
+    <input type="text" name="ExpiryDate" value="@Model.ExpiryDate.Tommddyy()" class="datepicker" />
+
+    <div>
+        <a class="save-btn btn-primary">Update Visa Details</a>
+        <img class="frm-busy" src="~/Content/Images/busy_h.gif" />
+    </div>
+</form>

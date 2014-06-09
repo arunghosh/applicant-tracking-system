@@ -1,11 +1,13 @@
 ﻿var busyImg = '<img src="/Content/Images/busy_h.gif" />';
 $(function () {
     $('.datepicker').datepicker();
+    //$('.datepicker-dmy').datepicker();
+    $('.datepicker').datepicker("option", "dateFormat", "d, M y");
     $(".datepicker").each(function () {
-        var $this = $(this);
-        var utc = new Date($this.val());
-        utc.setMinutes(utc.getMinutes() - utc.getTimezoneOffset());
-        $this.val(utc.toLocaleDateString());
+        //var $this = $(this);
+        //var utc = new Date($this.val());
+        //utc.setMinutes(utc.getMinutes() - utc.getTimezoneOffset());
+        //$this.val(utc.toLocaleDateString());
     });
 
     var $head = $('#menu');
@@ -179,7 +181,6 @@ $(function () {
         // Get the focused element:
         var noEle = $(event.target).parents('.ntfy-lst').length + $(event.target).parents('.popover').length + $(event.target).parents('.notify-icon').length;
         var $trgt = $(event.target);
-        debugger;
         if (!$trgt.hasClass('stat-lst') && $trgt.parents('.stat-lst').length === 0 && !$trgt.hasClass('stat-chge-btn')
             && $trgt.parents('.stat-chge-btn').length === 0 && !$trgt.hasClass('ui-datepicker') && $trgt.parents('.ui-datepicker').length == 0 && $trgt.parents('.ui-datepicker-header').length == 0) {
             $('.stat-lst').fadeOut();

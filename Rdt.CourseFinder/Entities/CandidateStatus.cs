@@ -36,5 +36,14 @@ namespace Rdt.CourseFinder.Entities
         {
             get { return CandidateStatusId; }
         }
+
+        private static int _travelledIndex = 0;
+        public static int TravelledIndex
+        {
+            get 
+            { 
+                return _travelledIndex; 
+            }
+        }
     }
 }

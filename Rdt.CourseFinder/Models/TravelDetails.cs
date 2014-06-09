@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -18,6 +20,16 @@ namespace Rdt.CourseFinder.Models
         [StringLength(64)]
         [Display(Name = "Boarding City")]
         public string BoardingCity { get; set; }
+
+
+        [NotMapped]
+        public string FormattedDate
+        {
+            get
+            {
+                return TravelDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+        }
 
 
         public TravelDetailsVm()

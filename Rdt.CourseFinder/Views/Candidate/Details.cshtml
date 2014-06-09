@@ -13,7 +13,7 @@
     }
 </style>
 <div class="cand-details">
-    @*<a href="/candidate/edit/@Model.CandidateId" class="ft-r"><i class="icon-edit"></i> Edit</a>*@
+    <a href="/candidate/edit/@Model.CandidateId" class="ft-r" target="_blank"><i class="icon-edit"></i> Edit</a>
     @Html.DisplayForModel()
     <br />
     <div id="candCancelBtn">
@@ -52,7 +52,7 @@
 <script>
     $(function () {
         $('.log-ctnr').slimScroll({
-            height: 100
+            height: 200
         });
         $('#candCancelBtn').click(function () {
             $(this).hide();
