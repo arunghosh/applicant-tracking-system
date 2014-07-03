@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="p20">
+<div id="dashBoard">
     <h5>Projects Status</h5>
     @{Html.RenderAction("Projects");}
     <br />
@@ -38,7 +38,6 @@
             var $this = $(this);
             $this.unbind('click');
             var $td = $this.parents('td');
-            debugger;
             var sid = $(this).attr('data-status');
             $td.html('<img src="/Content/Images/busy_h.gif" />');
             $.ajax({
@@ -56,5 +55,29 @@
                 }
             });
         });
+
+        $('#passRetList .update-btn').click(function () {
+            var $this = $(this);
+            $this.unbind('click');
+            var $td = $this.parents('td');
+            var sid = $(this).attr('data-status');
+            $td.html('<img src="/Content/Images/busy_h.gif" />');
+            $.ajax({
+                url: '/passreturn/updatestatus/',
+                type: 'post',
+                traditional: true,
+                data: { id: $td.attr('data-id'), sid: sid },
+                success: function (result) {
+                    if (result.status == true) {
+                        $td.html(result.msg);
+                    } else {
+                        alert("Failed")
+                    }
+
+                }
+            });
+        });
+
+        
     </script>
 }

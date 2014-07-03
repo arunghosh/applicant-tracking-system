@@ -5,29 +5,88 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }*@
 <style>
-    #candCancelBtn a, #canCanFrm a
-    {
-        padding: 3px 20px;
+    #candCancelBtn a, #canCanFrm a {
+        padding: 1px 15px;
         color: #fff;
-        background: #b22;
+        background: #c55;
     }
 </style>
 <div class="cand-details">
-    <a href="/candidate/edit/@Model.CandidateId" class="ft-r" target="_blank"><i class="icon-edit"></i> Edit</a>
+    <a href="/candidate/edit/@Model.CandidateId" class="ft-r" target="_blank"><i class="icon-edit"></i>Edit</a>
     @Html.DisplayForModel()
-    <br />
-    <div id="candCancelBtn">
-        <div>Current Status: <b>@Model.CandidateStatus.Name</b></div>
-        <br />
-        <a class="btn">Cancel Candidate</a>
-    </div>
 
-    <form action="/candidate/cancel" class="hide" method="post" id="canCanFrm">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="id" value="@Model.CandidateId" />
-        <textarea name="reason" style="width: 90%" placeholder="Candidate Cancel Reason"></textarea>
-        <a class="btn-gray">Cancel Candidate</a>
-    </form>
+
+    @if (Model.CandidateStatus.CandidateStatusId != Constants.SID_Cancelled)
+    {
+        <br />
+        <div id="candCancelBtn">
+            <div>Current Status: <b>@Model.CandidateStatus.Name</b></div>
+            <br />
+            <a class="btn">Cancel Candidate</a>
+        </div>
+        <form action="/candidate/cancel" class="hide" method="post" id="canCanFrm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.CandidateId" />
+            <textarea name="reason" style="width: 90%" placeholder="Candidate Cancel Reason"></textarea>
+            <a class="btn-gray">Cancel Candidate</a>
+        </form>
+    }
+
+    @if (Model.TravelDate != null)
+    {
+        <div id="travelPost" class="can-status-list" data-id="@Model.CandidateId">
+            <div class="d-ib bld">Travel Postpone: </div>
+            @switch (Model.TravelPostponement)
+            {
+                case TravelPostStates.NotRequested:
+                <a data-status="@((byte)TravelPostStates.Requested)" class="tp" title="Request">Request Postponement</a>
+                    break;
+                case TravelPostStates.Requested:
+                <em>Request send. Pending approval.</em> <a data-status="@((byte)TravelPostStates.NotRequested)" class="cr" title="Cancel">Cancel Request</a>
+                    break;
+                case TravelPostStates.Approved:
+                <em>Approved</em>
+                    break;
+                case TravelPostStates.Rejected:
+                <em>Rejected</em>
+                    break;
+                default:
+                    break;
+            }
+        </div>
+    }
+
+    <div id="passRetCtnr" class="can-status-list"  data-id="@Model.CandidateId">
+        <div class="d-ib bld">Passport Return: </div>
+        @switch (Model.PassportReturnStatus)
+        {
+            case PassportReturnStatus.NotRequested:
+            <input placeholder="Passport return reason" class="msg" />
+            <a data-status="@((byte)PassportReturnStatus.PendingAdminApproval)" class="tp" title="Pending Admin Approval">Request Return</a>
+                break;
+            case PassportReturnStatus.PendingAdminApproval:
+            <em>Requested Return. Pending Admin Approval </em>  <a data-status="@((byte)PassportReturnStatus.NotRequested)" class="cr" title="Pending Admin Approval">Cancel Request</a>
+                break;
+            case PassportReturnStatus.PendingAccountApproval:
+            <em>Pending Accounts Approval</em>
+                break;
+            case PassportReturnStatus.PassportReturned:
+            <em>Passport Returned</em>
+                break;
+            case PassportReturnStatus.AdminRejected:
+            <em>Rejected by Admin</em>
+                break;
+            case PassportReturnStatus.AccountsRejected:
+            <em>Rejected by Accounts</em>
+                break;
+            case PassportReturnStatus.Approved:
+            <em>Approved by Admin & Accounts</em>
+                break;
+
+            default:
+                break;
+        }
+    </div>
     <br />
     <h5>Candidate Log History</h5>
     <div class="log-ctnr">
@@ -52,12 +111,42 @@
 <script>
     $(function () {
         $('.log-ctnr').slimScroll({
-            height: 200
+            height: 150
         });
         $('#candCancelBtn').click(function () {
             $(this).hide();
             $('#canCanFrm').show();
 
+        });
+
+        $('#travelPost a').click(function () {
+            var $ctnr = $('#travelPost');
+            var $a = $(this);
+            $a.html('<img src="/Content/Images/busy_h.gif" />');
+            $.ajax({
+                url: '/travelpost/updatestatus',
+                type: 'post',
+                traditional: true,
+                data: { id: $ctnr.attr('data-id'), sid: $a.attr('data-status') },
+                success: function (result) {
+                    $a.html(result.msg + ' <i class="icon-ok icon-white"></i>');
+                }
+            });
+        });
+
+        $('#passRetCtnr a').click(function () {
+            var $ctnr = $('#passRetCtnr');
+            var $a = $(this);
+            $a.html('<img src="/Content/Images/busy_h.gif" />');
+            $.ajax({
+                url: '/passreturn/updatestatus',
+                type: 'post',
+                traditional: true,
+                data: { id: $ctnr.attr('data-id'), sid: $a.attr('data-status'), msg: $ctnr.find('.msg').val() },
+                success: function (result) {
+                    $a.html(result.msg + ' <i class="icon-ok icon-white"></i>');
+                }
+            });
         });
 
         var $frm = $('#canCanFrm');

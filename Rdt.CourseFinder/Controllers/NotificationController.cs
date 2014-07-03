@@ -30,10 +30,10 @@ namespace Rdt.CourseFinder.Controllers
             }
         }
 
-        public PartialViewResult VisaDeposit()
+        public PartialViewResult VisaDeposit(int days = 3)
         {
             var today = DateTime.Now.Date;
-            var visaNotifyDate = today.AddDays(3).Date;
+            var visaNotifyDate = today.AddDays(days).Date;
             var candidates = _db.Candidates
                                 .Where(c => !c.IsVisaDeposited).ToList()
                                 .Where(c => c.TravelDate != null && c.TravelDate.Value <= visaNotifyDate && c.TravelDate >= today)

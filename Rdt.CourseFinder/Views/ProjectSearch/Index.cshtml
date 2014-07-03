@@ -150,26 +150,6 @@
                 });
             };
 
-            this.regTrvlPost = function () {
-                $tr.each(function () {
-                    var $this = $(this);
-                    $this.find('.travel-post a').click(function () {
-                        var $a = $(this);
-                        $a.html('<img src="/Content/Images/busy_h.gif" />');
-                        debugger;
-                        $.ajax({
-                            url: '/travelpost/updatestatus',
-                            type: 'post',
-                            traditional: true,
-                            data: { id: $this.attr('data-id'), sid:$a.attr('data-status') },
-                            success: function (result) {
-                                $a.html('<i class="icon-ok icon-white"></i>');
-                            }
-                        });
-                    });
-                });
-            };
-
             this.regStateChange = function () {
 
                 $('.stat-chge-btn').click(function () {
@@ -216,7 +196,6 @@
             SrcRslt.regStateChange();
             SrcRslt.regEcCheck();
             SrcRslt.regUpdateFrms();
-            SrcRslt.regTrvlPost();
         });
     </script>
     <script src="~/Scripts/_search.js"></script>

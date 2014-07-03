@@ -34,4 +34,8 @@
     </table>
 </div>
 <br />
+@{Html.RenderAction("VisaDeposit", "Notification", new { days = 2 });}
+<br />
 @{Html.RenderAction("PendingApproval", "TravelPost");}
+<br />
+@{Html.RenderAction("PendingAdmin", "PassReturn");}

@@ -80,6 +80,12 @@ namespace Rdt.CourseFinder.Entities
         [Display(Name = "Travel Postponement")]
         public TravelPostStates TravelPostponement { get; set; }
 
+        [Display(Name = "Passport Return")]
+        public PassportReturnStatus PassportReturnStatus { get; set; }
+
+        [StringLength(512)]
+        public string PassportReturnReason { get; set; }
+
         [Display(Name = "EC Required")]
         [TemplatesVisibility(ShowForEdit = false)]
         public bool IsEcCheckReq { get; set; }
@@ -144,8 +150,7 @@ namespace Rdt.CourseFinder.Entities
         {
             get
             {
-                if (CandidateStatus == null) return false;
-                return CandidateStatus.CandidateStatusId >= Constants.SID_MedicalRecevied && CandidateStatus.IsPositive;
+                return IsStatusComplete(Constants.SID_MedicalRecevied);
             }
         }
 
@@ -155,8 +160,7 @@ namespace Rdt.CourseFinder.Entities
         {
             get
             {
-                if (CandidateStatus == null) return false;
-                return CandidateStatus.CandidateStatusId >= Constants.SID_MedicalRecevied && CandidateStatus.IsPositive;
+                return IsMedicalReceived;
             }
         }
 
@@ -166,8 +170,7 @@ namespace Rdt.CourseFinder.Entities
         {
             get
             {
-                if (CandidateStatus == null) return false;
-                return CandidateStatus.CandidateStatusId >= Constants.SID_DocumentsSend && CandidateStatus.IsPositive;
+                return IsStatusComplete(Constants.SID_DocumentsSend);
             }
         }
 
@@ -190,8 +193,9 @@ namespace Rdt.CourseFinder.Entities
 
         public bool IsStatusComplete(int statusId)
         {
+            var index = CandidateStatus.IndexOf(statusId);
             if (CandidateStatus == null) return false;
-            return CandidateStatus.CandidateStatusId >= statusId && CandidateStatus.IsPositive;
+            return CandidateStatus.Index >= index && CandidateStatus.IsPositive;
         }
 
         public void UpdateEcCheck(bool? isReq, bool? isDone)

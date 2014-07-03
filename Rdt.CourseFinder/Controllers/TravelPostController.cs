@@ -54,13 +54,13 @@ namespace Rdt.CourseFinder.Controllers
         public JsonResult UpdateStatus(int id, byte sid)
         {
             var status = true;
+            var logTxt = string.Empty;
             var newStaus = (TravelPostStates)sid;
             try
             {
 
                 var candidate = _db.Candidates.Find(id);
                 
-                var logTxt = string.Empty;
                 candidate.TravelPostponement = newStaus;
                 switch (newStaus)
                 {
@@ -94,7 +94,7 @@ namespace Rdt.CourseFinder.Controllers
             {
                 status = false;
             }
-            return Json(new { status = status, msg = newStaus.ToString() });
+            return Json(new { status = status, msg = logTxt });
         }
 
     }

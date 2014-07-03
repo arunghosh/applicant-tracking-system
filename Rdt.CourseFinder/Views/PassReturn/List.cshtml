@@ -1,0 +1,28 @@
+﻿@model Rdt.CourseFinder.Models.PassReturnVm
+
+<h5>Passport return requests</h5>
+<table class="table table-hover table-bordered" id="passRetList">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Passport #</th>
+        <th>Reason</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.Candidates)
+    {
+        <tr>
+            <td>@(Model.Candidates.IndexOf(item) + 1)</td>
+            <td><a class="new-obj" data-title="Details" data-url="/Candidate/Details/@item.CandidateId" data-method="get">@item.Name</a></td>
+            <td>@item.Passport</td>
+            <td>@item.PassportReturnReason</td>
+            <td data-id="@item.CandidateId" style="min-width:60px;">
+                <a class="btn-primary update-btn" data-status="@Model.AgreeStatus" title="Approve Request"><i class="icon-ok icon-white"></i></a>
+                <a class="btn update-btn" data-status="@Model.RejectStatus" title="Reject Request"><i class="icon-remove"></i></a>
+            </td>
+        </tr>    
+    }
+</table>
+
+
+

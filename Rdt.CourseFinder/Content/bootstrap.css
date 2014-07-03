@@ -2188,7 +2188,7 @@ table
     .table th,
     .table td
     {
-        padding: 5px 12px;
+        padding: 2px 12px;
         line-height: 20px;
         text-align: left;
         vertical-align: central;
@@ -2247,7 +2247,7 @@ table
     background: #444;
     font-weight: normal;
     color: #d0d0d0;
-    padding: 10px 12px 7px 12px;
+    padding: 5px 12px 2px 12px;
     border-color: #666;
 }
 
@@ -2310,7 +2310,7 @@ table
 
 .table-hover tbody tr:hover > td
 {
-    background-color: #fafafa;
+    background-color: #ffb;
 }
 
 table td[class*="span"],

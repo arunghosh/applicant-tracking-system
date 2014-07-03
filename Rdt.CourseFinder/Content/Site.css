@@ -2832,33 +2832,56 @@ input[type="number"] {
     cursor:pointer;
 }
 
-.travel-post a:hover {
+.can-status-list a:hover{
     text-decoration:none;
-    background:#777;
-    color:#fff;
+    opacity:1;
 }
-.travel-post a, .travel-post div {
-background: #eee;
-color: #000;
-cursor: pointer;
-padding: 1px 6px;
-font-size: 10px;
+.can-status-list a {
+    cursor: pointer;
+}
+.can-status-list a{
+background: #19f;
+color: #fff;
+padding: 2px 15px;
 min-width: 30px;
 display: inline-block;
 text-align: center;
 border-radius: 2px;
-}
-.travel-post .rj {
-    background: #ebb;
-}
-.travel-post .ap {
-    background: #beb;
-}
-.travel-post .cr {
-    background:#def;
+opacity:.9;
 }
 
+.can-status-list {
+    margin:5px 0;
+}
 
-#travelPostList .update-btn {
+.can-status-listList .update-btn {
     padding:1px 10px;
+}
+
+#travelPostList .update-btn, #passRetList .update-btn{
+    padding:0px 10px;
+}
+
+#dashBoard .btn-primary:hover {
+    background:#19f;
+}
+#dashBoard .btn-primary {
+    background:#888;
+    margin-right:7px;
+}
+#dashBoard i {
+    zoom:.9;
+}
+
+#dashBoard .icon-remove{
+    opacity:.5;
+}
+#dashBoard h5 {
+font-size: 12px;
+text-transform: uppercase;
+color: #08f;
+margin: 0;
+}
+#dashBoard {
+    margin:10px 0;
 }

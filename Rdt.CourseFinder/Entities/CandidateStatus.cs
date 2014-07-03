@@ -37,13 +37,35 @@ namespace Rdt.CourseFinder.Entities
             get { return CandidateStatusId; }
         }
 
-        private static int _travelledIndex = 0;
+        private static int _travelledIndex = -1;
         public static int TravelledIndex
         {
             get 
-            { 
+            {
+                if (_travelledIndex == -1)
+                {
+                    _travelledIndex = DbCache.Instance.CanditStatus.Single(c => c.CandidateStatusId == Constants.SID_Travelled).Index;
+                }
                 return _travelledIndex; 
             }
+        }
+
+        private static int _medRxIndex = -1;
+        public static int MedRxIndex
+        {
+            get
+            {
+                if (_medRxIndex == -1)
+                {
+                    _medRxIndex = DbCache.Instance.CanditStatus.Single(c => c.CandidateStatusId == Constants.SID_MedicalRecevied).Index;
+                }
+                return _medRxIndex;
+            }
+        }
+
+        public int IndexOf(int statusId)
+        {
+            return DbCache.Instance.CanditStatus.Single(c => c.CandidateStatusId == statusId).Index;
         }
     }
 }

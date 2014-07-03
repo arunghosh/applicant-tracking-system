@@ -82,7 +82,7 @@
                     <th>Passport #</th>
                     <th>Name</th>
                     <th>Category</th>
-                    <th colspan="2">
+                    <th colspan="1">
                         <div class="stat-chge-btn p0">Status<span class="caret"></span></div>
                         <ul class="stat-lst">
                             @foreach (var status in UserSession.CanidateStatus)
@@ -106,28 +106,50 @@
                         <td class="c-ck">
                             <div class="r-st @item.CandidateStatus.Abbrevation">@item.CandidateStatus.Name</div>
                         </td>
-                        <td class="travel-post">
+@*                        <td class="travel-post">
                             @if (item.TravelDate != null)
                             {
                                 switch (item.TravelPostponement)
                                 {
                                     case TravelPostStates.NotRequested:
-                                        <a data-status="@((byte)TravelPostStates.Requested)" class="tp" title="Request Travel Postpone">Req</a>
+                                        <a data-status="@((byte)TravelPostStates.Requested)" class="tp" title="Request">Req</a>
                                         break;
                                     case TravelPostStates.Requested:
-                                        <a data-status="@((byte)TravelPostStates.NotRequested)" class="cr" title="Cancel Travel Postpone">Can</a>
+                                        <a data-status="@((byte)TravelPostStates.NotRequested)" class="cr" title="Cancel">Can</a>
                                         break;
                                     case TravelPostStates.Approved:
-                                        <div class="ap">AP</div>
+                                        <div class="ap" title="Approved">AP</div>
                                         break;
                                     case TravelPostStates.Rejected:
-                                        <div class="rj">RJ</div>
+                                        <div class="rj"  title="Rejected">RJ</div>
                                         break;
                                     default:
                                         break;
                                 }
                             }
-                        </td>
+                        </td>*@
+
+@*                        <td class="pass-ret">
+                            @switch (item.PassportReturnStatus)
+                            {
+                                case PassportReturnStatus.NotRequested:
+                                    <a data-status="@((byte)PassportReturnStatus.PendingAdminApproval)" class="tp" title="Pending Admin Approval">Req</a>
+                                    break;
+                                case PassportReturnStatus.PendingAdminApproval:
+                                    <a data-status="@((byte)PassportReturnStatus.NotRequested)" class="cr" title="Pending Admin Approval">Can</a>
+                                    break;
+                                case PassportReturnStatus.PendingAccountApproval:
+                                    break;
+                                case PassportReturnStatus.PassportReturned:
+                                    break;
+                                case PassportReturnStatus.AdminRejected:
+                                    break;
+                                case PassportReturnStatus.AccountsRejected:
+                                    break;
+                                default:
+                                    break;
+                            }      
+                        </td>*@
                     </tr>
                 }
                 <tr>
