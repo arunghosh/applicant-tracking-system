@@ -6,8 +6,8 @@
 <div id="dashBoard">
     <h5>Projects Status</h5>
     @{Html.RenderAction("Projects");}
-    <br />
     @{Html.RenderAction("Details", "Notification");}
+    @{Html.RenderAction("FromDb", "Notification");}
 </div>
 
 @section Scripts{

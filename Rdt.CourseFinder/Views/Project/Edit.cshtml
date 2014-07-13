@@ -13,6 +13,11 @@
             @Html.LabelFor(m => m.Company)
             @Html.DropDownList("CompanyId")
         </div>
+
+        <div>
+            @Html.LabelFor(m => m.HiringType)
+            @Html.DropDownListFor(m => m.HiringType, ViewBag.ProjectTypes as SelectList)
+        </div>
     </div>
     if (Model.IsNew)
     {

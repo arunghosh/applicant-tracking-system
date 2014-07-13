@@ -77,8 +77,14 @@ namespace Rdt.CourseFinder.Entities
         [Display(Name = "Visa Deposited")]
         public bool IsVisaDeposited { get; set; }
 
+        [TemplatesVisibility(ShowForDisplay = false, ShowForEdit = false)]
+        public int? TravelPostUserId { get; set; }
+
         [Display(Name = "Travel Postponement")]
         public TravelPostStates TravelPostponement { get; set; }
+
+        [TemplatesVisibility(ShowForDisplay = false, ShowForEdit = false)]
+        public int? PasspostRetUserId { get; set; }
 
         [Display(Name = "Passport Return")]
         public PassportReturnStatus PassportReturnStatus { get; set; }

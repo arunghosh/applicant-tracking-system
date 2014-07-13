@@ -1,9 +1,10 @@
 ﻿@model Dictionary<string, Dictionary<string, int>>
-<div id="container" style="width: 850px; height: @(Model.Count * 70)px;"></div>
+<div id="container" style="width: 920px; height: @(Model.Count * 63)px;"></div>
 @{
     var reqLst = string.Join(",", Model.Select(k => k.Value).Select(v => v.First().Value));
     var rectLst = string.Join(",", Model.Select(k => k.Value).Select(v => v.Skip(1).First().Value));
-    var medLst = string.Join(",", Model.Select(k => k.Value).Select(v => v.Last().Value));
+    var medLst = string.Join(",", Model.Select(k => k.Value).Select(v => v.Skip(2).First().Value));
+    var trvlLst = string.Join(",", Model.Select(k => k.Value).Select(v => v.Last().Value));
 }
 <script>
     $(function () {
@@ -42,6 +43,11 @@
                     dataLabels: {
                         enabled: true
                     }
+                },
+                series: {
+                    pointWidth: 12,
+                    pointPadding: 0,
+                    groupPadding: 0.1
                 }
             },
             legend: {
@@ -60,22 +66,26 @@
             },
             series: [
                     {
+                        name: 'Travelled',
+                        data: [@trvlLst],
+                        color: '#2B4'
+                    },
+
+                    {
                         name: 'Medical Completed',
                         data: [@medLst],
-                        color: '#2b4'
+                        color: '#08d'
                     },
                     {
                         name: 'Recruited',
                         data: [@rectLst],
-                        color: '#08d'
+                        color: '#C72'
                     },
                     {
                         name: 'Requirement',
                         data: [@reqLst],
                         color: '#b22'
                     },
-
-
             ]
         });
     });

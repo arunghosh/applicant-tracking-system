@@ -22,6 +22,13 @@ namespace Rdt.CourseFinder.Controllers
             }
         }
 
+        public PartialViewResult FromDB()
+        {
+            var userId = CurrentUserId;
+            var ntfys = _db.Notifications.Where(n => n.UserId == userId && !n.IsRead).ToList();
+            return PartialView(ntfys);
+        }
+
         public PartialViewResult Details()
         {
             using (var srv = new NotifyService())

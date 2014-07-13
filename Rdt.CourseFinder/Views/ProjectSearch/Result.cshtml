@@ -40,6 +40,7 @@
                 </div>
 
                 <div class="d-ib">@SearchHelper.MiniPageControl(Model.TotalCandidates.Count(), Model.ItemsPerPage, Model.PageIndex)</div>
+                <div class="d-ib ft-r"><a id="btnDownload" class="btn" style="border:none;"><i class="icon-download"></i></a></div>
             </div>
 
             <div style="border: 1px solid #ddd; border-width: 0 1px; min-height: 34px;">
@@ -106,7 +107,7 @@
                         <td class="c-ck">
                             <div class="r-st @item.CandidateStatus.Abbrevation">@item.CandidateStatus.Name</div>
                         </td>
-@*                        <td class="travel-post">
+                        @*                        <td class="travel-post">
                             @if (item.TravelDate != null)
                             {
                                 switch (item.TravelPostponement)
@@ -129,7 +130,7 @@
                             }
                         </td>*@
 
-@*                        <td class="pass-ret">
+                        @*                        <td class="pass-ret">
                             @switch (item.PassportReturnStatus)
                             {
                                 case PassportReturnStatus.NotRequested:

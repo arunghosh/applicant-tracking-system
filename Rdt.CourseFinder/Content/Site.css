@@ -2781,6 +2781,7 @@ input[type="number"] {
     border: 0;
     background: transparent;
     cursor: pointer;
+    padding: 0;
 }
 
 .ui-autocomplete {
@@ -2813,75 +2814,191 @@ input[type="number"] {
     padding: 15px;
 }
 
-#visaDepoList .visa-depo {
+#visaDepoList .visa-depo, .ntfy-read {
     padding: 2px 18px;
     background: #777;
     color: #eee;
     min-width: 111px;
     display: inline-block;
     line-height: 18px;
+    margin: 0 0 1px 0;
 }
 
 
 #statusList i:hover {
-    opacity:1;
-}
-#statusList i{
-    margin:2px;
-    opacity:.6;
-    cursor:pointer;
+    opacity: 1;
 }
 
-.can-status-list a:hover{
-    text-decoration:none;
-    opacity:1;
+#statusList i {
+    margin: 2px;
+    opacity: .6;
+    cursor: pointer;
 }
+
+.can-status-list a:hover {
+    text-decoration: none;
+    opacity: 1;
+}
+
 .can-status-list a {
     cursor: pointer;
 }
-.can-status-list a{
-background: #19f;
-color: #fff;
-padding: 2px 15px;
-min-width: 30px;
-display: inline-block;
-text-align: center;
-border-radius: 2px;
-opacity:.9;
+
+.can-status-list a {
+    background: #19f;
+    color: #fff;
+    padding: 2px 15px;
+    min-width: 30px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 2px;
+    opacity: .9;
 }
 
 .can-status-list {
-    margin:5px 0;
+    margin: 5px 0;
 }
 
 .can-status-listList .update-btn {
-    padding:1px 10px;
+    padding: 1px 10px;
 }
 
-#travelPostList .update-btn, #passRetList .update-btn{
-    padding:0px 10px;
+#travelPostList .update-btn, #passRetList .update-btn {
+    padding: 0px 10px;
+    background: #a55;
 }
 
 #dashBoard .btn-primary:hover {
-    background:#19f;
-}
-#dashBoard .btn-primary {
-    background:#888;
-    margin-right:7px;
-}
-#dashBoard i {
-    zoom:.9;
+    background: #19f;
 }
 
-#dashBoard .icon-remove{
-    opacity:.5;
+#dashBoard .btn-primary {
+    background: #0aa;
+    margin-right: 7px;
+    padding: 0 16px;
 }
+
+#dashBoard i {
+    zoom: .9;
+}
+
+#dashBoard .icon-remove {
+    opacity: .8;
+}
+
 #dashBoard h5 {
-font-size: 12px;
-text-transform: uppercase;
-color: #08f;
-margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #444;
+    margin: 0;
+    background: #eeb;
+    padding: 4px 10px 1px 10px;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    text-shadow: 0px 1px #bbb;
 }
+
 #dashBoard {
-    margin:10px 0;
+    margin: 10px 0;
+}
+
+#clndrHrinLst .cnt {
+    width: 30px;
+}
+
+#clndrHrinLst li {
+    display: inline-block;
+    width: 250px;
+}
+
+#clndrHrinLst {
+    list-style-type: none;
+    display: none;
+}
+
+    #clndrHrinLst .main-head {
+        text-align: center;
+        background: #888;
+        color: #fff;
+        font-weight: normal;
+    }
+
+#clndrTab {
+    margin: 0 0 15px 0;
+}
+
+    #clndrTab li {
+        list-style-type: none;
+        padding: 10px 0px;
+        width: 478px;
+        background: #ddd;
+        color: #999;
+        display: table-cell;
+        border: 1px solid rgba(0,0,0,.05);
+        text-align: center;
+        border-left: 1px solid #eee;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        border-right: 1px solid #ccc;
+    }
+
+        #clndrTab li.active {
+            background: #19f;
+            color: #fff;
+        }
+
+
+.trvl-bar:hover {
+    background: #666;
+}
+
+
+.trvl-bar {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    margin: 0px 5px 0 4px;
+    color: transparent;
+    height: 15px;
+    vertical-align: middle;
+    background: #bbb;
+}
+
+    .trvl-bar.selected {
+        background: #5bf;
+    }
+
+#travelBar .time {
+}
+
+#travelBar {
+    font-size: 12px;
+    width: 400px;
+    display: inline-block;
+}
+
+#travelDetails {
+    width: 500px;
+    float: right;
+    display: inline-block;
+    border-left: 1px solid #ddd;
+    padding: 0 0 0 34px;
+}
+
+.clndr-frm input {
+width: 100px;
+margin-right: 12px;
+padding: 2px 8px;
+}
+
+.clndr-frm select {
+    width:150px;
+margin-right: 12px;
+height:25px;
+}
+.clndr-frm {
+    background: #f3f3f3;
+    padding: 28px 10px 10px 10px;
+    margin-top: -18px;
 }

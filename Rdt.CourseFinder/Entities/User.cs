@@ -27,6 +27,9 @@ namespace Rdt.CourseFinder.Entities
         [Required]
         public string Email { get; set; }
 
+        [StringLength(64)]
+        public string Branch { get; set; }
+
         [Phone]
         [StringLength(32)]
         public string Mobile { get; set; }
@@ -34,6 +37,7 @@ namespace Rdt.CourseFinder.Entities
         public virtual List<Session> Sessions { get; set; }
         public virtual List<UserRole> Roles { get; set; }
         public virtual List<UserLog> UserLogs { get; set; }
+        public virtual List<Notification> Notifications { get; set; }
 
         public UserRoleType Role { get; set; }
 
@@ -67,7 +71,9 @@ namespace Rdt.CourseFinder.Entities
             Name = model.Name;
             Role = model.Role;
             IsBlocked = model.IsBlocked;
+            Branch = model.Branch;
         }
+
         public UserCreateVm GetUserCreateVm()
         {
             return new UserCreateVm
@@ -76,7 +82,8 @@ namespace Rdt.CourseFinder.Entities
                 Name = Name,
                 Role = Role,
                 UserId = UserId,
-                IsBlocked = IsBlocked
+                IsBlocked = IsBlocked,
+                Branch = Branch
             };
         }
     }

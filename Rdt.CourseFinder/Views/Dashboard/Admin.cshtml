@@ -1,6 +1,5 @@
 ﻿@model List<Rdt.CourseFinder.Entities.Project>
 
-
 <div>
     <table class="table table-hover table-bordered">
         <tr>
@@ -33,9 +32,6 @@
         }
     </table>
 </div>
-<br />
 @{Html.RenderAction("VisaDeposit", "Notification", new { days = 2 });}
-<br />
 @{Html.RenderAction("PendingApproval", "TravelPost");}
-<br />
 @{Html.RenderAction("PendingAdmin", "PassReturn");}

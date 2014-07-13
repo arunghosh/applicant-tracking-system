@@ -2238,17 +2238,18 @@ table
     .table-bordered td
     {
         border-right: 1px solid #fff;
-        background: #eee;
-        color: #444;
+        background: #f4f4f4;
+        color: #666;
     }
 
 .table th
 {
-    background: #444;
-    font-weight: normal;
-    color: #d0d0d0;
-    padding: 5px 12px 2px 12px;
-    border-color: #666;
+background: #eee;
+font-weight: normal;
+color: #b40;
+padding: 5px 12px 2px 12px;
+border-color: #fff;
+font-weight:bold;
 }
 
 
@@ -2382,8 +2383,8 @@ table th[class*="span"],
 
 .table th:hover
 {
-    background: #555;
-    color: #fff;
+    background: #eee;
+    color: #444;
 }
 
 /* White icons with optional class, or on hover/focus/active states of certain elements */

@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Rdt.CourseFinder.Entities;
+using Rdt.CourseFinder.Services;
 
 namespace Rdt.CourseFinder.Models
 {
-    public class CalenderVm
+    public class CalenderVm: ReportBaseVm
     {
         public int MaxCnt
         {
@@ -25,17 +26,13 @@ namespace Rdt.CourseFinder.Models
             }
         }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime StartDate { get; set; }
-
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime EndDate { get; set; }
-        public List<IGrouping<DateTime, Candidate>> Result { get; set; }
-
-        public CalenderVm()
+        public List<IGrouping<DateTime, Candidate>> Result
         {
-            StartDate = DateTime.UtcNow;
-            EndDate = StartDate.AddDays(14);
+            get
+            {
+                var rslt = Candidates.GroupBy(m => m.TravelDate.Value.Date).ToList();
+                return rslt;
+            }
         }
     }
 }

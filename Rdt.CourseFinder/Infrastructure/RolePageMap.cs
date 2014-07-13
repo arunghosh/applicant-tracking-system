@@ -28,6 +28,7 @@ namespace Rdt.CourseFinder.Infrastructure
             var adminPages = new List<NavigationItem>();
 
             adminPages.Add(Routes.NavigationItems[PageTypes.Dashboard]);
+            adminPages.Add(Routes.NavigationItems[PageTypes.Report]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Company]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Projects]);
             adminPages.Add(Routes.NavigationItems[PageTypes.Imports]);

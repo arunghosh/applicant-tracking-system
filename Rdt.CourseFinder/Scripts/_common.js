@@ -10,6 +10,18 @@ $(function () {
         //$this.val(utc.toLocaleDateString());
     });
 
+    $('#clndrTab li').click(function () {
+        $('#clndrTab li').removeClass('active');
+        $(this).addClass('active');
+        if ($(this).attr('data-id') == 0) {
+            $('#consolLst').show();
+            $('#clndrHrinLst').hide();
+        } else {
+            $('#consolLst').hide();
+            $('#clndrHrinLst').show();
+        }
+    });
+
     var $head = $('#menu');
     if ($head.length > 0) {
         var previousScroll = 0,

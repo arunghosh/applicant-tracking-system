@@ -16,5 +16,6 @@ namespace Rdt.CourseFinder
         ActivityLog,
         Dashboard,
         TravelCalendar,
+        Report,
     }
 }

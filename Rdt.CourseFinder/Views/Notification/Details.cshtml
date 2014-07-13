@@ -1,4 +1,7 @@
 ﻿@model List<Rdt.CourseFinder.Services.NotifyItem>
+@if(Model.Any())
+{
+    <br />
     <h5>Tasks</h5>
     <table class="table table-hover table-bordered">
         <tr>
@@ -13,3 +16,4 @@
             </tr>
         }
     </table>
+}

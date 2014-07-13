@@ -20,7 +20,7 @@
             <td>@DisplayHelper.DateTime(item.TravelDate.Value, DateTypes.Medium)</td>
             <td data-id="@item.CandidateId" style="min-width:60px;">
                 <a class="btn-primary update-btn" data-status="@((byte)TravelPostStates.Approved)" title="Approve Request"><i class="icon-ok icon-white"></i></a>
-                <a class="btn update-btn" data-status="@((byte)TravelPostStates.Rejected)" title="Reject Request"><i class="icon-remove"></i></a>
+                <a class="btn update-btn" data-status="@((byte)TravelPostStates.Rejected)" title="Reject Request"><i class="icon-white icon-remove"></i></a>
             </td>
         </tr>    
     }

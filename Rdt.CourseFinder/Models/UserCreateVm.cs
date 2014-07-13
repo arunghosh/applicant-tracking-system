@@ -21,6 +21,9 @@ namespace Rdt.CourseFinder.Models
         [Required]
         public string Email { get; set; }
 
+        [StringLength(64)]
+        public string Branch { get; set; }
+
         public UserRoleType Role { get; set; }
 
         public bool IsBlocked { get; set; }

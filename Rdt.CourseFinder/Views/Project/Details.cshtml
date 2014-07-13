@@ -27,16 +27,18 @@
         <h5>Overview</h5>
         <div style="border: 1px solid #ddd" class="sub-mar">
             <ul id="ctgrySele">
-                @*<li id="summary" class="selected">Summary</li>*@
+                <li id="summary" class="selected">Summary</li>
                 @foreach (var item in Model.CategorySelectList)
                 {
-                    <li class='detail @(Model.CategorySelectList.First() == item ? "selected" : "")'>@item</li>
+                    <li class='detail @(Model.CategorySelectList.First() == item ? "" : "")'>@item</li>
             
                 }
             </ul>
             <div id="cgryBarCtnr">
-                <div class="lazy-load" data-url="/project/categorybar/1?ctgry=%5B+--+All+--+%5D">
+                <div class="lazy-load" data-url="/project/statusbar/@Model.ProjectId">
                 </div>
+                @*<div class="lazy-load" data-url="/project/categorybar/1?ctgry=%5B+--+All+--+%5D">
+                </div>*@
             </div>
         </div>
     </div>

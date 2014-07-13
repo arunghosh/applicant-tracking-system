@@ -58,6 +58,7 @@ namespace Rdt.CourseFinder.Controllers
             summary.Add("Requirement", prj.TotalRequirement);
             summary.Add("Recruited", prj.Candidates.Count());
             summary.Add("Medical Received", prj.MedicalReceivedCandidates.Count);
+            summary.Add("Travelled", prj.TravelledCandidates.Count);
             model.Add("Summary", summary);
             foreach (var item in prj.CategorySelectList.Skip(1))
             {
@@ -66,6 +67,7 @@ namespace Rdt.CourseFinder.Controllers
                 temp.Add("Requirement", prj.RequirementFor(item));
                 temp.Add("Recruited", ctrgyCandits.Count());
                 temp.Add("Medical Received", ctrgyCandits.Count(m => m.IsMedicalReceived));
+                temp.Add("Travelled", ctrgyCandits.Count(m => m.IsStatusComplete(Constants.SID_Travelled)));
                 model.Add(item, temp);
             }
             ViewBag.Prj = prj.ProjectName;
@@ -138,6 +140,11 @@ namespace Rdt.CourseFinder.Controllers
             var companies = _db.Companies.ToList();
             if (model.IsNew) { model.CompanyId = companies[0].CompanyId; }
             ViewBag.CompanyId = new SelectList(companies, "CompanyId", "CompanyName", model.CompanyId);
+            ViewBag.ProjectTypes = new SelectList(new List<string> {
+                                    "Blue Collar - Civil",
+                                    "Blue Collar - Others",
+                                    "White Collar - I",
+                                    "White Collar - II" });
             return PartialView(model);
         }
 

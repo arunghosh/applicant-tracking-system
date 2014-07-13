@@ -157,6 +157,16 @@ namespace Rdt.CourseFinder
 
             AddCommonRoute(new NavigationItem
             {
+                DisplayText = "Report",
+                Controller = "Report",
+                Action = "Index",
+                PageType = PageTypes.Report,
+                Titile = "Report",
+                ImageUrl = "report.png"
+            });
+
+            AddCommonRoute(new NavigationItem
+            {
                 DisplayText = "Settings",
                 Controller = "Settings",
                 Action = "Index",

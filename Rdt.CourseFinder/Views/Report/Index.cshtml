@@ -1,0 +1,88 @@
+﻿@model Rdt.CourseFinder.Models.ReportVm
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <form action="/report/index" method="post" class="clndr-frm">
+        Candidates who 
+        @Html.DropDownListFor(m => m.SelectedStatusId, new SelectList(Model.ReportStatusMaps, "StatusId", "StatusDisplay"))
+        <span>From </span>
+        <input type="text" name="StartDate" value="@Model.StartDate.Tommddyy()" class="datepicker" />
+        <span>To</span>
+        <input type="text" name="EndDate" value="@Model.EndDate.Tommddyy()" class="datepicker" />
+
+        <button type="submit" class="btn-primary" style="padding: 3px 20px">Find</button>
+    </form>
+    <ul id="clndrTab">
+        <li data-id="0" class="active">Consolidated</li>
+        <li data-id="1">Hiring Type</li>
+    </ul>
+
+    @if (Model.Candidates.Any())
+    {
+        <div><span class="h-light bld">@Model.Candidates.Count()</span>  Candidates <em>@Model.StatusName </em> from <span class="h-light">@DisplayHelper.DateTime(Model.StartDate, DateTypes.WithDay)</span> to <span class="h-light">@DisplayHelper.DateTime(Model.EndDate, DateTypes.WithDay)</span> </div>
+        <hr />
+        <div id="consolLst">
+            <table class="table table-hover table-bordered" id="travelPostList">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Passport #</th>
+                    <th>Project</th>
+                    <th>Agent</th>
+                </tr>
+                @foreach (var item in Model.Candidates)
+                {
+                    <tr>
+                        <td>@(Model.Candidates.IndexOf(item) + 1)</td>
+                        <td><a class="new-obj" data-title="Details" data-url="/Candidate/Details/@item.CandidateId" data-method="get">@item.Name</a></td>
+                        <td>@item.Passport</td>
+                        <td>@item.Project.ProjectName</td>
+                        <td>@item.Agent</td>
+                    </tr>    
+                }
+            </table>
+        </div>
+        <ul id="clndrHrinLst">
+            @foreach (var hType in Model.ResultByHiringType)
+            {
+                <li>
+                    <table class="table table-hover table-bordered clndr-table">
+                        <tr>
+                            <th colspan="2" class="main-head">@hType.Key</th>
+                        </tr>
+                        <tr>
+                            <th>Company</th>
+                            <th class="cnt">#</th>
+                        </tr>
+                        @foreach (var cmpy in hType.Value)
+                        {
+                            <tr>
+                                <td>@cmpy.CompanyName</td>
+                                <td class="bld">@cmpy.Count</td>
+                            </tr>
+
+                        }
+                    </table>
+                </li>
+            }
+
+        </ul>
+
+    }
+    else
+    {
+        <div>No candidates found</div>
+    }
+
+</div>
+
+@section Scripts
+{
+    <script>
+
+    </script>
+}

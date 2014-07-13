@@ -10,29 +10,31 @@ namespace Rdt.CourseFinder.Controllers
 {
     public class CalendarController : BaseController
     {
-        CalenderSrv _srv = new CalenderSrv();
+        ReportSrv _srv = new ReportSrv();
 
         [HttpGet]
         public ViewResult Index()
         {
             CurrentPage = PageTypes.TravelCalendar;
             var model = new CalenderVm();
-            model.Result = _srv.GetTravelling(model.StartDate, model.EndDate);
+            model.Candidates = _srv.GetTravelling(model.StartDate, model.EndDate);
             return View(model);
         }
-
 
         [HttpPost]
         public ViewResult Index(CalenderVm model)
         {
-            model.Result = _srv.GetTravelling(model.StartDate, model.EndDate);
+            model.Candidates = _srv.GetTravelling(model.StartDate, model.EndDate);
             return View(model);
         }
 
         public PartialViewResult Details(DateTime date)
         {
-            var result = _srv.GetTravelling(date);
-            return PartialView(result);
+            using (var srv = new ReportSrv())
+            {
+                var result = srv.GetTravelling(date);
+                return PartialView(result);
+            }
         }
 
     }

@@ -32,6 +32,9 @@ namespace Rdt.CourseFinder.Entities
 
         public int CompanyId { get; set; }
 
+        [StringLength(64)]
+        public string HiringType { get; set; }
+
         [ForeignKey("CompanyId")]
         public virtual Company Company { get; set; }
 
@@ -66,6 +69,15 @@ namespace Rdt.CourseFinder.Entities
             get
             {
                 return Candidates.Where(c => c.IsMedicalReceived).ToList();
+            }
+        }
+
+        [NotMapped]
+        public List<Candidate> TravelledCandidates
+        {
+            get
+            {
+                return Candidates.Where(c => c.IsStatusComplete(Constants.SID_Travelled)).ToList();
             }
         }
 

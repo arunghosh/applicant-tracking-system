@@ -30,6 +30,7 @@ namespace Rdt.CourseFinder.Entities
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<MasterCategory> MasterCategories { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public List<Candidate> GetByStatusCompleted(int status)
         {

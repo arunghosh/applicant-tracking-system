@@ -4,55 +4,6 @@
     ViewBag.Title = Routes.GetTitile(PageTypes.TravelCalendar);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .trvl-bar:hover {
-        background: #666;
-    }
-
-
-    .trvl-bar {
-        display: inline-block;
-        cursor: pointer;
-        border-radius: 0 4px 4px 0;
-        margin: 0px 5px 0 4px;
-        color: transparent;
-        height: 15px;
-        vertical-align: middle;
-        background: #bbb;
-    }
-
-        .trvl-bar.selected {
-            background: #5bf;
-        }
-
-    #travelBar .time {
-    }
-
-    #travelBar {
-        font-size: 12px;
-        width: 400px;
-        display: inline-block;
-    }
-
-    #travelDetails {
-        width: 500px;
-        float: right;
-        display: inline-block;
-        border-left: 1px solid #ddd;
-        padding: 0 0 0 34px;
-    }
-
-    .clndr-frm input {
-        width: 100px;
-        margin-right: 10px;
-    }
-
-    .clndr-frm {
-        background: #f3f3f3;
-        padding: 28px 10px 10px 10px;
-        margin-top: -18px;
-    }
-</style>
 
 <div>
     <form action="/calendar/index" method="post" class="clndr-frm">
@@ -62,33 +13,65 @@
         <input type="text" name="EndDate" value="@Model.EndDate.Tommddyy()" class="datepicker" />
         <button type="submit" class="btn-primary" style="padding: 3px 20px">Submit</button>
     </form>
-    <br />
+    <ul id="clndrTab">
+        <li data-id="0" class="active">Consolidated</li>
+        <li data-id="1">Hiring Type</li>
+    </ul>
+
     @if (Model.Result.Any())
     {
-        var scale = 300 / Model.MaxCnt;
-        <div id="travelBar">
-            <div>Candidates travelling from <span class="h-light">@DisplayHelper.DateTime(Model.StartDate, DateTypes.WithDay)</span> to <span class="h-light">@DisplayHelper.DateTime(Model.EndDate, DateTypes.WithDay)</span> </div>
-            <hr />
-            <table>
-                @foreach (var item in Model.Result.OrderBy(i => i.Key))
-                {
-                    <tr>
-                        <td>@item.Key.ToString("dd MMM yy")</td>
-                        <td>
-                            <div class="trvl-bar" data-date='@item.Key.ToString("MM/dd/yyyy")' style="width:@(item.Count() * scale)px;">.</div>@item.Count()
-                        </td>
-                    </tr>
-                }
-            </table>
+        <div><span class="h-light bld">@Model.Candidates.Count()</span>  Candidates travelling from <span class="h-light">@DisplayHelper.DateTime(Model.StartDate, DateTypes.WithDay)</span> to <span class="h-light">@DisplayHelper.DateTime(Model.EndDate, DateTypes.WithDay)</span> </div>
+        <hr />
+        <div id="consolLst">
+            @{var scale = 300 / Model.MaxCnt;}
+            <div id="travelBar">
+                <table>
+                    @foreach (var item in Model.Result.OrderBy(i => i.Key))
+                    {
+                        <tr>
+                            <td>@item.Key.ToString("dd MMM yy")</td>
+                            <td>
+                                <div class="trvl-bar" data-date='@item.Key.ToString("MM/dd/yyyy")' style="width:@(item.Count() * scale)px;">.</div>@item.Count()
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div id="travelDetails">
+            </div>
         </div>
+        <ul id="clndrHrinLst">
+            @foreach (var hType in Model.ResultByHiringType)
+            {
+                <li>
+                    <table class="table table-hover table-bordered clndr-table">
+                        <tr>
+                            <th colspan="2" class="main-head">@hType.Key</th>
+                        </tr>
+                        <tr>
+                            <th>Company</th>
+                            <th class="cnt">#</th>
+                        </tr>
+                        @foreach (var cmpy in hType.Value)
+                        {
+                            <tr>
+                                <td>@cmpy.CompanyName</td>
+                                <td class="bld">@cmpy.Count</td>
+                            </tr>
+
+                        }
+                    </table>
+                </li>
+            }
+
+        </ul>
 
     }
     else
     {
         <div>No candidates found</div>
     }
-    <div id="travelDetails">
-    </div>
+
 </div>
 
 @section Scripts
@@ -109,6 +92,7 @@
                     }
                 });
             });
+
         });
     </script>
 }

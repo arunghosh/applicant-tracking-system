@@ -29,6 +29,16 @@
 @section Scripts
 {
     <script>
+
+        $('#btnDownload').each(function () {
+            var $this = $(this);
+            $this.unbind('click');
+            $this.click(function () {
+                $("#filterCtnr #output").val("excel");
+                $("#filterCtnr form").submit();
+            })
+        });
+
         var SrcRslt = new function () {
             var $headSele = $('.stat-chge-btn');
             var $table = $('.rslt-table');
